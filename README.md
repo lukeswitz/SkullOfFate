@@ -30,7 +30,7 @@ The **Skull of Fate** represents **Atropos**, providing you with a unique tarot 
 **Features:**
 
 - **Original Artwork**: The card features original artwork inspired by ancient mythology.
-- **Tarot Readings**: 78 unique tarot readings accessible via NFC.
+- **Tarot Readings**: 78 unique tarot readings accessible via NFC through dynamic and random assignment.
 - **LED Animations**: 25 different eye animations in a variety of colors.
 
 **Modes of Operation:**
