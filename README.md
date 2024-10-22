@@ -126,7 +126,3 @@ This project is open-source and available under the [MIT License](LICENSE). Feel
 If you have any questions or need assistance, please open an issue or contact the project maintainers.
 
 ---
-
-*This documentation was generated to provide an overview of the Skull of Fate project, its features, components, and how to interact with it using both Arduino and MicroPython code.*
-
----
