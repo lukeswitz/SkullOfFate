@@ -1,4 +1,4 @@
-# Skull of Fate
+# Skull of Fate Tarot Card SAO
 
 Alone late at night in your castle, you reach out and grab the cobweb-covered head sitting on your mantle. Was this the head of a fierce enemy defeated in battle, a villager slain in one of your many conquests, a fallen comrade, a spiteful lover? You gaze into the black hollow pits where its eyes once were and start to fade in and out of consciousness, as if in a trance. Visions of the future dizzyingly pass by. Fires rage, bodies are strewn, dragons take flight.
 
