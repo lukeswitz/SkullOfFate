@@ -110,7 +110,7 @@ private:
         "z": 0
       },
       "defaultAnimation": 0,
-      "defaulti2cAddress": 18,
+      "defaulti2cAddress": 19,
       "alternatei2cAddress1": 19,
       "alternatei2cAddress2": 20,
       "alternatei2cAddress3": 21,
