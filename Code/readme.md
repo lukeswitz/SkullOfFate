@@ -1,8 +1,12 @@
 # Skull of Fate Integration with Raspberry Pi Pico W Badge
 
-This guide provides instructions and explanations for integrating the **Skull of Fate** I2C client with a Raspberry Pi Pico W badge. The provided `boot.py` and `main.py` scripts include new functionalities, such as interacting with the Skull of Fate device, handling serial prompts, and customizing button actions.  
+This guide provides instructions and explanations for integrating the **Skull of Fate** I2C client with a Raspberry Pi Pico W badge. The provided `boot.py` and `main.py` scripts include new functionalities, such as interacting with the Skull of Fate device, handling serial prompts, and customizing button actions.  This documentation provides an overview of integrating the Skull of Fate I²C client with the Supercon 8 Badge, detailing code modifications, setup instructions, and customization options.  
 
 CHECK BACK FOR UPDATES!
+
+## Repository Overview
+
+The [2024 Supercon 8 Add-On Badge repository](https://github.com/Hack-a-Day/2024-Supercon-8-Add-On-Badge) by Hack-a-Day contains resources for the Supercon 8 badge, including hardware schematics, software examples, and tutorials. This repository serves as a foundation for adding peripherals like the Skull of Fate.
 
 ## Table of Contents
 
