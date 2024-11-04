@@ -4,6 +4,9 @@ Alone late at night in your castle, you reach out and grab the cobweb-covered he
 
 **What future will you choose?**
 
+## Purchase Skull of Fate on Tindie:  
+https://www.tindie.com/products/makeithackin/skull-of-fate-sao/
+
 ---
 
 ## Table of Contents
