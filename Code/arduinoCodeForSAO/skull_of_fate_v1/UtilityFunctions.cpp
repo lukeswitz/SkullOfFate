@@ -19,7 +19,10 @@ extern int animationIndex;
 static unsigned long lastDoubleTapTime_global = 0;            // Last time a double tap was handled
 static const unsigned long DOUBLE_TAP_COOLDOWN_GLOBAL = 500;  // Cooldown duration in milliseconds
 
-
+// Timing variables for button sequence detection
+unsigned long lastRightButtonTime = 0;
+bool specialModeActive = false;
+const unsigned long SPECIAL_MODE_TIMEOUT = 2000; // 2 seconds timeout
 
 static DoubleTapCallback doubleTapCallback = NULL;
 
@@ -680,8 +683,31 @@ bool isLeftButtonPressed() {
   return digitalRead(LEFT_BUTTON_PIN) == LOW;
 }
 
+bool isSpecialModeActive() {
+  // Check if special mode has timed out
+  if (specialModeActive && (millis() - lastRightButtonTime > SPECIAL_MODE_TIMEOUT)) {
+    specialModeActive = false;
+  }
+  return specialModeActive;
+}
+
+
 bool isRightButtonPressed() {
-  return digitalRead(RIGHT_BUTTON_PIN) == LOW;
+  bool currentState = (digitalRead(RIGHT_BUTTON_PIN) == LOW);
+  
+  // Only update lastRightButtonTime and activate special mode
+  // when button is first pressed (not continuously while held)
+  static bool lastRightState = HIGH;
+  
+  if (currentState && lastRightState == HIGH) {
+    // Button was just pressed
+    lastRightButtonTime = millis();
+    specialModeActive = true;
+    Serial.println("Special mode activated! Press both buttons within 2 seconds for full card range (1-78)");
+  }
+  
+  lastRightState = currentState;
+  return currentState;
 }
 
 bool isBothButtonsPressed() {
@@ -2237,39 +2263,68 @@ void rainbowBeatMusic(Adafruit_NeoPixel &pixels) {
 
 
 void handleBothButtonsPressed() {
-  if (!bothButtonsPressed) {
+  static unsigned long lastBothButtonsTime = 0;
+  static bool bothButtonsLock = false;
+  
+  // Check if this is a fresh press (debounce and prevent continuous triggering)
+  unsigned long currentTime = millis();
+  if (currentTime - lastBothButtonsTime < 300) {
+    return; // Debounce
+  }
+  
+  if (!bothButtonsLock && isBothButtonsPressed()) {
     Watchdog.reset();
-    bothButtonsPressed = true;
-    previousAnimation = currentAnimation;  // Store the current animation to resume later
-    currentAnimation = NULL;               // Stop current animation
-    Serial.println("BOTH BUTTONS PRESSED!");
+    bothButtonsLock = true;
+    lastBothButtonsTime = currentTime;
+    
+    // Store the current animation to resume later
+    previousAnimation = currentAnimation;
+    currentAnimation = NULL;  // Stop current animation
+    
+    // Check if special mode is active
+    bool useFullRange = isSpecialModeActive();
+    
+    if (useFullRange) {
+      Serial.println("BOTH BUTTONS PRESSED IN SPECIAL MODE!");
+      Serial.println("Using full card range (1-78)");
+    } else {
+      Serial.println("BOTH BUTTONS PRESSED!");
+      Serial.println("Using limited card range (1-38)");
+    }
 
     // Initialize random seed
-    randomSeed(analogRead(A3));  // Use an unconnected analog pin for randomness
+    randomSeed(analogRead(A3));
 
-    // Light up all discrete LEDs and turn all NeoPixels green
+    // Visual feedback
     turnOnAllLEDs();
-    setAllNeoPixelsColor(pixels, pixels.Color(255, 255, 255));  // White color
+    setAllNeoPixelsColor(pixels, pixels.Color(255, 255, 255));
     pixels.show();
 
-    // Call the NFCWriter functions
+    // NFC operations
     nfcWriter.wipeEEPROM();
     nfcWriter.writeCCFile();
-    nfcWriter.writeRandomURI();
+    nfcWriter.writeRandomURI(useFullRange);
 
     Serial.println("NFC tag written.");
     Watchdog.reset();
 
-    // Wait for 2 seconds
+    // Wait for visual feedback
     delay(2000);
 
-    // Turn off discrete LEDs and resume previous animation
+    // Clean up
     turnOffAllLEDs();
-    setAllNeoPixelsColor(pixels, 0);  // Turn off NeoPixels
+    setAllNeoPixelsColor(pixels, 0);
     pixels.show();
 
+    // Resume previous animation
     currentAnimation = previousAnimation;
-    bothButtonsPressed = false;
+    
+    // Reset special mode after use
+    specialModeActive = false;
+  } 
+  else if (bothButtonsLock && !isBothButtonsPressed()) {
+    // Buttons were released
+    bothButtonsLock = false;
   }
 }
 

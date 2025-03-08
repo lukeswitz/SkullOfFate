@@ -96,11 +96,18 @@ void NFCWriter::writeCCFile() {
 
 }
 
-void NFCWriter::writeRandomURI() {
-    // Generate a random number between 1 and 78 (inclusive)
-    uint8_t randomNumber = random(1, 79);  // low inclusive, high exclusive
-
-    //randomNumber = 3;
+void NFCWriter::writeRandomURI(bool fullRange) {
+    // Generate a random number based on the range
+    uint8_t randomNumber;
+    
+    if (fullRange) {
+        randomNumber = random(1, 79);  // 1-78 (inclusive)
+        Serial.print(F("Using full range (1-78), selected card: "));
+    } else {
+        randomNumber = random(1, 39);  // 1-38 (inclusive)
+        Serial.print(F("Using limited range (1-38), selected card: "));
+    }
+    Serial.println(randomNumber);
     
     // Construct the URI string
     char uriString[100];

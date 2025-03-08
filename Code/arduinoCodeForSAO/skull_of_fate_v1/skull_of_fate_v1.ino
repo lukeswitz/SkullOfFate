@@ -29,8 +29,6 @@ ConfigManager configManager(flash);
 // Configuration parameters
 Config currentConfig;
 
-
-
 // Watchdog timer
 int watchdogTimerInSeconds = 10;
 
@@ -336,26 +334,36 @@ void setup() {
 }
 
 void loop() {
-  // Check for both buttons pressed
-  if (isBothButtonsPressed()) {
-    handleBothButtonsPressed();
-    Watchdog.reset();
-  } else {
+  // Always check for special mode timeout
+  isSpecialModeActive();
+  
+  // Handle button presses
+  handleBothButtonsPressed(); // Let this function manage its own state
+  
+  // Individual button handling (only when both aren't pressed)
+  if (!isBothButtonsPressed()) {
     if (isLeftButtonPressed()) {
-      // Left button was just pressed
-      //configManager.printConfig();
-      advanceAnimation();
+      // Debounce
+      static unsigned long lastLeftPress = 0;
+      unsigned long now = millis();
+      if (now - lastLeftPress > 200) {
+        advanceAnimation();
+        lastLeftPress = now;
+      }
       Watchdog.reset();
-      delay(200); // Reduced debounce delay
     }
+    
+    // Right button already checks for special mode in isRightButtonPressed()
+    
     // Run the current animation
     if (currentAnimation != NULL) {
       currentAnimation(pixels);
-      animationInterrupted = false; // Reset the flag after animation exits
+      animationInterrupted = false;
       Watchdog.reset();
     }
   }
-  // Reset watchdog with every loop to make sure the sketch keeps running.
+  
+  // Reset watchdog with every loop
   Watchdog.reset();
 }
 

@@ -11,7 +11,7 @@ public:
     bool initializeTag();
     void wipeEEPROM();
     void writeCCFile();
-    void writeRandomURI();
+    void writeRandomURI(bool fullRange = false);
     void verifyWrite(uint16_t totalSize);
     uint16_t getTotalSize();
 private:

@@ -118,6 +118,7 @@ bool isBothButtonsPressed();
 
 //void handleBothButtonsPressed();
 
+
 // Utility functions
 void waitForButtonPress(bool (*buttonFunction)());
 void handleBothButtonsPressed();
@@ -132,6 +133,14 @@ void processFFT();
 float calculateVolume();
 void displaySolidColor(Adafruit_NeoPixel &pixels, uint32_t selectedColor);
 void displayRainbow(Adafruit_NeoPixel &pixels);
+
+// Button timing and state variables
+extern unsigned long lastRightButtonTime;
+extern bool specialModeActive;
+extern const unsigned long SPECIAL_MODE_TIMEOUT;
+
+// Dedicated function to check special mode
+bool isSpecialModeActive();
 
 // Function to perform the chase pattern
 void runChasePattern(int speed, int repeats);
