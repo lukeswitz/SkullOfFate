@@ -2,11 +2,11 @@
 
 #include "UtilityFunctions.h"
 #include "NFCWriter.h"
-#include "SparkFun_ST25DV64KC_Arduino_Library.h" // Include the NFC library
+#include "SparkFun_ST25DV64KC_Arduino_Library.h"  // Include the NFC library
 #include <Adafruit_SleepyDog.h>
 
 
-#include "ConfigManager.h" // Include ConfigManager to access configManager
+#include "ConfigManager.h"  // Include ConfigManager to access configManager
 
 // Declare the ConfigManager instance as extern
 extern ConfigManager configManager;
@@ -16,8 +16,8 @@ extern Config currentConfig;
 extern int animationIndex;
 
 // Debounce variables for double tap detection
-static unsigned long lastDoubleTapTime_global = 0;      // Last time a double tap was handled
-static const unsigned long DOUBLE_TAP_COOLDOWN_GLOBAL = 500; // Cooldown duration in milliseconds
+static unsigned long lastDoubleTapTime_global = 0;            // Last time a double tap was handled
+static const unsigned long DOUBLE_TAP_COOLDOWN_GLOBAL = 500;  // Cooldown duration in milliseconds
 
 
 
@@ -25,7 +25,7 @@ static DoubleTapCallback doubleTapCallback = NULL;
 
 // Function to set the double tap callback
 void setDoubleTapCallback(DoubleTapCallback callback) {
-    doubleTapCallback = callback;
+  doubleTapCallback = callback;
 }
 
 /**
@@ -37,19 +37,19 @@ void setDoubleTapCallback(DoubleTapCallback callback) {
  * @param key The key of the configuration parameter to update.
  * @param value The new integer value to assign to the parameter.
  */
-void updateConfigParameterInt(const String& key, int value) {
+void updateConfigParameterInt(const String &key, int value) {
   // Serial.print(F("Updating config parameter '"));
   // Serial.print(key);
   // Serial.print(F("' to value "));
   // Serial.println(value);
-  
+
   // Create a temporary JSON document to hold the key-value pair
-  DynamicJsonDocument tempDoc(2048); // Adjust size if necessary
+  DynamicJsonDocument tempDoc(2048);  // Adjust size if necessary
   tempDoc[key] = value;
-  
+
   // Obtain a JsonVariant reference to pass to ConfigManager
   JsonVariant variant = tempDoc[key];
-  
+
   // Attempt to update the configuration
   if (configManager.updateConfig(key, variant)) {
     // Serial.print(F("Successfully updated '"));
@@ -72,20 +72,20 @@ void updateConfigParameterInt(const String& key, int value) {
  * @param key The key of the configuration parameter to update.
  * @param value The new string value to assign to the parameter.
  */
-void updateConfigParameterString(const String& key, const String& value) {
+void updateConfigParameterString(const String &key, const String &value) {
   // Serial.print(F("Updating config parameter '"));
   // Serial.print(key);
   // Serial.print(F("' to value '"));
   // Serial.print(value);
   // Serial.println(F("'"));
-  
+
   // Create a temporary JSON document to hold the key-value pair
-  DynamicJsonDocument tempDoc(2048); // Adjust size if necessary
+  DynamicJsonDocument tempDoc(2048);  // Adjust size if necessary
   tempDoc[key] = value;
-  
+
   // Obtain a JsonVariant reference to pass to ConfigManager
   JsonVariant variant = tempDoc[key];
-  
+
   // Attempt to update the configuration
   if (configManager.updateConfig(key, variant)) {
     // Serial.print(F("Successfully updated '"));
@@ -109,19 +109,19 @@ void updateConfigParameterString(const String& key, const String& value) {
  * @param key The key of the configuration parameter to update.
  * @param value The new float value to assign to the parameter.
  */
-void updateConfigParameterFloat(const String& key, float value) {
+void updateConfigParameterFloat(const String &key, float value) {
   // Serial.print(F("Updating config parameter '"));
   // Serial.print(key);
   // Serial.print(F("' to value "));
   // Serial.println(value);
-  
+
   // Create a temporary JSON document to hold the key-value pair
-  DynamicJsonDocument tempDoc(2048); // Adjust size if necessary
+  DynamicJsonDocument tempDoc(2048);  // Adjust size if necessary
   tempDoc[key] = value;
-  
+
   // Obtain a JsonVariant reference to pass to ConfigManager
   JsonVariant variant = tempDoc[key];
-  
+
   // Attempt to update the configuration
   if (configManager.updateConfig(key, variant)) {
     // Serial.print(F("Successfully updated '"));
@@ -144,19 +144,19 @@ void updateConfigParameterFloat(const String& key, float value) {
  * @param key The key of the configuration parameter to update.
  * @param value The new boolean value to assign to the parameter.
  */
-void updateConfigParameterBool(const String& key, bool value) {
+void updateConfigParameterBool(const String &key, bool value) {
   // Serial.print(F("Updating config parameter '"));
   // Serial.print(key);
   // Serial.print(F("' to value "));
   // Serial.println(value ? "true" : "false");
-  
+
   // Create a temporary JSON document to hold the key-value pair
-  DynamicJsonDocument tempDoc(2048); // Adjust size if necessary
+  DynamicJsonDocument tempDoc(2048);  // Adjust size if necessary
   tempDoc[key] = value;
-  
+
   // Obtain a JsonVariant reference to pass to ConfigManager
   JsonVariant variant = tempDoc[key];
-  
+
   // Attempt to update the configuration
   if (configManager.updateConfig(key, variant)) {
     // Serial.print(F("Successfully updated '"));
@@ -179,19 +179,19 @@ extern volatile bool animationInterrupted;
 ////////////////////////////////////////////////////////
 
 // Simulation Configuration
-const unsigned long GENERATION_INTERVAL_MS = 1000; // Time between generations in milliseconds
+const unsigned long GENERATION_INTERVAL_MS = 1000;  // Time between generations in milliseconds
 const unsigned long FADE_STEP_DELAY_MS = 20;        // Delay between fade steps in milliseconds
 const unsigned long RESET_DELAY_MS = 2000;          // Delay before resetting after conditions met
-const uint32_t DEAD_CELL_COLOR = 0x000000;         // Black/off for dead cells
+const uint32_t DEAD_CELL_COLOR = 0x000000;          // Black/off for dead cells
 
 // Live Cell Colors (Cycle through these on each restart)
 const uint32_t colorList[] = {
-  0x00FF00, // Green
-  0xFF0000, // Red
-  0x0000FF, // Blue
-  0xFFFF00, // Yellow
-  0xFF00FF, // Magenta
-  0x00FFFF  // Cyan
+  0x00FF00,  // Green
+  0xFF0000,  // Red
+  0x0000FF,  // Blue
+  0xFFFF00,  // Yellow
+  0xFF00FF,  // Magenta
+  0x00FFFF   // Cyan
 };
 const int numColors2 = sizeof(colorList) / sizeof(colorList[0]);
 int currentColorIndex = 0;
@@ -202,20 +202,20 @@ uint32_t LIVE_CELL_COLOR;
 // Simulation Variables
 // ---------------------------
 
-bool currentState[5][10];    // Current state of each cell (live or dead)
-bool nextState[5][10];       // Next state of each cell after update
-bool previousState[5][10];   // Previous state for comparison
-bool secondPreviousState[5][10]; // Second previous state for oscillation detection
+bool currentState[5][10];         // Current state of each cell (live or dead)
+bool nextState[5][10];            // Next state of each cell after update
+bool previousState[5][10];        // Previous state for comparison
+bool secondPreviousState[5][10];  // Second previous state for oscillation detection
 
-int stableCounter = 0;        // Counter for stable generations
-const int STABLE_THRESHOLD = 3; // Number of stable generations before reset
+int stableCounter = 0;           // Counter for stable generations
+const int STABLE_THRESHOLD = 3;  // Number of stable generations before reset
 
-int oscillationCounter = 0;   // Counter for oscillations
-const int OSCILLATION_THRESHOLD = 2; // Number of oscillations before reset
+int oscillationCounter = 0;           // Counter for oscillations
+const int OSCILLATION_THRESHOLD = 2;  // Number of oscillations before reset
 
-unsigned long lastGenerationTime = 0; // Last time the grid was updated
+unsigned long lastGenerationTime = 0;  // Last time the grid was updated
 // Combined grid mapping for easy access
-int grid[5][10]; // 5 rows, 10 columns
+int grid[5][10];  // 5 rows, 10 columns
 
 // ---------------------------
 // Function Prototypes
@@ -244,16 +244,16 @@ void fadeTransition(bool fadingOut, bool fadingIn);
 // Animation Configuration
 const int GRID_WIDTH = 5;
 const int GRID_HEIGHT = 5;
-const int FALL_SPEED_MS = 200; // Time between piece moves in milliseconds
+const int FALL_SPEED_MS = 200;  // Time between piece moves in milliseconds
 
 // Color Configuration for Tetrominoes
-const uint32_t I_COLOR = 0x00FFFF; // Cyan
-const uint32_t O_COLOR = 0xFFFF00; // Yellow
-const uint32_t T_COLOR = 0xAA00FF; // Purple
-const uint32_t S_COLOR = 0x00FF00; // Green
-const uint32_t Z_COLOR = 0xFF0000; // Red
-const uint32_t J_COLOR = 0x0000FF; // Blue
-const uint32_t L_COLOR = 0xFF7F00; // Orange
+const uint32_t I_COLOR = 0x00FFFF;  // Cyan
+const uint32_t O_COLOR = 0xFFFF00;  // Yellow
+const uint32_t T_COLOR = 0xAA00FF;  // Purple
+const uint32_t S_COLOR = 0x00FF00;  // Green
+const uint32_t Z_COLOR = 0xFF0000;  // Red
+const uint32_t J_COLOR = 0x0000FF;  // Blue
+const uint32_t L_COLOR = 0xFF7F00;  // Orange
 
 
 // ---------------------------
@@ -261,11 +261,11 @@ const uint32_t L_COLOR = 0xFF7F00; // Orange
 // ---------------------------
 
 struct Tetromino {
-  int shape[4][4];         // 4x4 matrix representing the shape
-  uint32_t color;          // Color of the tetromino
-  int rotationState = 0;   // Rotation state (0, 1, 2, 3)
+  int shape[4][4];        // 4x4 matrix representing the shape
+  uint32_t color;         // Color of the tetromino
+  int rotationState = 0;  // Rotation state (0, 1, 2, 3)
 };
-Tetromino currentPiece;    // Current tetromino piece
+Tetromino currentPiece;  // Current tetromino piece
 
 const int NUM_TETROMINOES = 7;
 
@@ -273,53 +273,46 @@ const int NUM_TETROMINOES = 7;
 const int tetrominoShapes[NUM_TETROMINOES][4][4] = {
   // I Tetromino
   {
-    {0, 0, 0, 0},
-    {1, 1, 1, 1},
-    {0, 0, 0, 0},
-    {0, 0, 0, 0}
-  },
+    { 0, 0, 0, 0 },
+    { 1, 1, 1, 1 },
+    { 0, 0, 0, 0 },
+    { 0, 0, 0, 0 } },
   // O Tetromino
   {
-    {0, 0, 0, 0},
-    {0, 1, 1, 0},
-    {0, 1, 1, 0},
-    {0, 0, 0, 0}
-  },
+    { 0, 0, 0, 0 },
+    { 0, 1, 1, 0 },
+    { 0, 1, 1, 0 },
+    { 0, 0, 0, 0 } },
   // T Tetromino
   {
-    {0, 0, 0, 0},
-    {1, 1, 1, 0},
-    {0, 1, 0, 0},
-    {0, 0, 0, 0}
-  },
+    { 0, 0, 0, 0 },
+    { 1, 1, 1, 0 },
+    { 0, 1, 0, 0 },
+    { 0, 0, 0, 0 } },
   // S Tetromino
   {
-    {0, 0, 0, 0},
-    {0, 1, 1, 0},
-    {1, 1, 0, 0},
-    {0, 0, 0, 0}
-  },
+    { 0, 0, 0, 0 },
+    { 0, 1, 1, 0 },
+    { 1, 1, 0, 0 },
+    { 0, 0, 0, 0 } },
   // Z Tetromino
   {
-    {0, 0, 0, 0},
-    {1, 1, 0, 0},
-    {0, 1, 1, 0},
-    {0, 0, 0, 0}
-  },
+    { 0, 0, 0, 0 },
+    { 1, 1, 0, 0 },
+    { 0, 1, 1, 0 },
+    { 0, 0, 0, 0 } },
   // J Tetromino
   {
-    {0, 0, 0, 0},
-    {1, 0, 0, 0},
-    {1, 1, 1, 0},
-    {0, 0, 0, 0}
-  },
+    { 0, 0, 0, 0 },
+    { 1, 0, 0, 0 },
+    { 1, 1, 1, 0 },
+    { 0, 0, 0, 0 } },
   // L Tetromino
   {
-    {0, 0, 0, 0},
-    {0, 0, 1, 0},
-    {1, 1, 1, 0},
-    {0, 0, 0, 0}
-  }
+    { 0, 0, 0, 0 },
+    { 0, 0, 1, 0 },
+    { 1, 1, 1, 0 },
+    { 0, 0, 0, 0 } }
 };
 
 // Corresponding colors for the tetrominoes
@@ -331,15 +324,15 @@ const uint32_t tetrominoColors[NUM_TETROMINOES] = {
 // Animation Variables
 // ---------------------------
 
-int pieceX = 1;          // X position of the current piece
-int pieceY = -4;         // Y position of the current piece (starts above the grid)
+int pieceX = 1;   // X position of the current piece
+int pieceY = -4;  // Y position of the current piece (starts above the grid)
 
-unsigned long lastFallTime = 0; // Timestamp of the last fall update
+unsigned long lastFallTime = 0;  // Timestamp of the last fall update
 
 // Button Variables
-bool lastButtonState = HIGH; // Assume button not pressed (pull-up resistor)
+bool lastButtonState = HIGH;  // Assume button not pressed (pull-up resistor)
 unsigned long lastDebounceTime = 0;
-const unsigned long debounceDelay = 50; // 50ms debounce
+const unsigned long debounceDelay = 50;  // 50ms debounce
 
 // ---------------------------
 // Function Prototypes
@@ -357,26 +350,26 @@ void rotateShape(int shape[4][4], int rotationState);
 
 
 // Droplet Configuration
-const int MAX_DROPLETS_PER_GRID = 5; // Maximum number of simultaneous droplets per grid
-const int DROPLET_SPEED_MS = 100;    // Droplet falling speed in milliseconds per row
+const int MAX_DROPLETS_PER_GRID = 5;  // Maximum number of simultaneous droplets per grid
+const int DROPLET_SPEED_MS = 100;     // Droplet falling speed in milliseconds per row
 
 
 // ---------------------------
 // Droplet Structure
 // ---------------------------
 struct Droplet {
-    int row;                  // Current row (0-4)
-    int column;               // Current column (0-4)
-    int speed;                // Falling speed (milliseconds per row)
-    uint32_t color;           // Color of the droplet
-    unsigned long lastUpdate; // Timestamp of the last position update
+  int row;                   // Current row (0-4)
+  int column;                // Current column (0-4)
+  int speed;                 // Falling speed (milliseconds per row)
+  uint32_t color;            // Color of the droplet
+  unsigned long lastUpdate;  // Timestamp of the last position update
 };
 
 
 // ---------------------------
 // Color Selection Variables
 // ---------------------------
-int colorMode = 0; // 0 = Random, 1-10 = colorArray[0-9]
+int colorMode = 0;  // 0 = Random, 1-10 = colorArray[0-9]
 // ---------------------------
 // Function Prototypes
 // ---------------------------
@@ -397,19 +390,19 @@ extern void (*previousAnimation)(Adafruit_NeoPixel &);
 extern Adafruit_LIS3DH lis;
 
 // Define the array of colors globally
-const int numColors = 10; // Number of colors in the array
+const int numColors = 10;  // Number of colors in the array
 
 const uint8_t colorArray[numColors][3] = {
-    {255, 0, 0},       // Red
-    {0, 255, 0},       // Green
-    {0, 0, 255},       // Blue
-    {255, 255, 0},     // Yellow
-    {0, 255, 255},     // Cyan
-    {255, 0, 255},     // Magenta
-    {255, 165, 0},     // Orange
-    {128, 0, 128},     // Purple
-    {255, 255, 255},   // White
-    {255, 192, 203}    // Pink
+  { 255, 0, 0 },      // Red
+  { 0, 255, 0 },      // Green
+  { 0, 0, 255 },      // Blue
+  { 255, 255, 0 },    // Yellow
+  { 0, 255, 255 },    // Cyan
+  { 255, 0, 255 },    // Magenta
+  { 255, 165, 0 },    // Orange
+  { 128, 0, 128 },    // Purple
+  { 255, 255, 255 },  // White
+  { 255, 192, 203 }   // Pink
 };
 
 Adafruit_ZeroPDM pdm(PIN_PDM_CLK, PIN_PDM_DATA);
@@ -428,45 +421,45 @@ const uint16_t sincfilter[DECIMATION] = {
 // GLOBAL VARIABLES
 int16_t pcm_buffer[FFT_SIZE];
 float spectrum[SPECTRUM_SIZE];
-float max_all = 10.0; // For dynamic scaling
+float max_all = 10.0;  // For dynamic scaling
 
 // Define the grid mappings
 // Left grid pixel indices (5x5 grid)
 const int leftGrid[5][5] = {
-  { -1,  0,  1,  2, -1 }, // y=0 (top row)
-  {  3,  4,  5,  6,  7 }, // y=1
-  {  8,  9, 10, 11, 12 }, // y=2
-  { 13, 14, 15, 16, 17 }, // y=3
-  { -1, 18, 19, 20, -1 }  // y=4 (bottom row)
+  { -1, 0, 1, 2, -1 },     // y=0 (top row)
+  { 3, 4, 5, 6, 7 },       // y=1
+  { 8, 9, 10, 11, 12 },    // y=2
+  { 13, 14, 15, 16, 17 },  // y=3
+  { -1, 18, 19, 20, -1 }   // y=4 (bottom row)
 };
 
 // Right grid pixel indices (5x5 grid)
 const int rightGrid[5][5] = {
-  { -1, 21, 22, 23, -1 }, // y=0
-  {24, 25, 26, 27, 28 },
-  {29, 30, 31, 32, 33 },
-  {34, 35, 36, 37, 38 },
+  { -1, 21, 22, 23, -1 },  // y=0
+  { 24, 25, 26, 27, 28 },
+  { 29, 30, 31, 32, 33 },
+  { 34, 35, 36, 37, 38 },
   { -1, 39, 40, 41, -1 }
 };
 
 // Brightness scaling variable
-float brightnessFactor = 0.0; // Start at 0%
+float brightnessFactor = 0.0;  // Start at 0%
 
 // Volume threshold to determine when LEDs should light up
-const float VOLUME_THRESHOLD = 3.0; // Adjust based on testing
+const float VOLUME_THRESHOLD = 3.0;  // Adjust based on testing
 
 // Variables for rainbow animation
-uint16_t globalHue = 0; // Global hue offset for rainbow cycling
+uint16_t globalHue = 0;  // Global hue offset for rainbow cycling
 
 // Tempo (BPM) related variables
-unsigned long lastBeatTime = 0; // Timestamp of the last detected beat
-float currentBPM = 120.0;       // Initial BPM estimate
+unsigned long lastBeatTime = 0;  // Timestamp of the last detected beat
+float currentBPM = 120.0;        // Initial BPM estimate
 const float MIN_BPM = 60.0;
 const float MAX_BPM = 180.0;
 
 // Hue increment range based on BPM
-const uint16_t MIN_HUE_INCREMENT = 128;  // Slower cycle
-const uint16_t MAX_HUE_INCREMENT = 1024; // Faster cycle
+const uint16_t MIN_HUE_INCREMENT = 128;   // Slower cycle
+const uint16_t MAX_HUE_INCREMENT = 1024;  // Faster cycle
 
 // Smoothing factor for BPM updates
 const float BPM_SMOOTHING = 0.8;
@@ -503,7 +496,7 @@ void initializePeripherals() {
     delay(10);  // Wait for serial port to connect
   }
   */
-  Serial.println("Starting..."); // Added line
+  Serial.println("Starting...");  // Added line
 
   // Initialize pins
   pinMode(HALL_EFFECT_PIN, INPUT_PULLUP);
@@ -514,21 +507,18 @@ void initializePeripherals() {
 
   // Initialize LEDs
   initializeLEDs();
-
-
-
-
 }
 
-void initializeNFC(){
+void initializeNFC() {
 
-    // Initialize microphone
+  // Initialize microphone
   initializeMicrophone();
-  
-    // Initialize NFC tag
+
+  // Initialize NFC tag
   if (!nfcWriter.initializeTag()) {
     Serial.println("Failed to initialize NFC tag.");
-    while (1);  // Halt execution if NFC tag initialization fails
+    while (1)
+      ;  // Halt execution if NFC tag initialization fails
   }
 }
 
@@ -569,13 +559,15 @@ void initializeMicrophone() {
   // Initialize the PDM microphone
   if (!pdm.begin()) {
     Serial.println("Failed to initialize PDM microphone!");
-    while (1);
+    while (1)
+      ;
   }
 
   // Configure the PDM microphone
-  if (!pdm.configure(SAMPLE_RATE * DECIMATION / 16, true)) { // Mono mode
+  if (!pdm.configure(SAMPLE_RATE * DECIMATION / 16, true)) {  // Mono mode
     Serial.println("Failed to configure PDM microphone!");
-    while (1);
+    while (1)
+      ;
   }
 }
 
@@ -611,7 +603,7 @@ void setLED(uint8_t pin, bool state) {
   digitalWrite(pin, state ? HIGH : LOW);
 }
 
-void setLEDGroup(const char* groupName, bool state) {
+void setLEDGroup(const char *groupName, bool state) {
   if (strcmp(groupName, "wands") == 0) {
     setLED(YELLOW_WAND_UPPER_LEFT_PIN, state);
     setLED(YELLOW_WAND_UPPER_RIGHT_PIN, state);
@@ -708,10 +700,10 @@ void waitForButtonPress(bool (*buttonFunction)()) {
 
 // Function to map heat values to colors
 uint32_t HeatColor(uint8_t temperature, Adafruit_NeoPixel &pixels) {
-  uint8_t t192 = (temperature * 191) / 255; // Scale 'heat' down from 0-255 to 0-191
+  uint8_t t192 = (temperature * 191) / 255;  // Scale 'heat' down from 0-255 to 0-191
 
-  uint8_t heatramp = t192 & 0x3F; // 0..63
-  heatramp <<= 2; // Scale up to 0..252
+  uint8_t heatramp = t192 & 0x3F;  // 0..63
+  heatramp <<= 2;                  // Scale up to 0..252
 
   if (t192 > 128) {
     // Hot
@@ -735,72 +727,72 @@ void flameEffect(Adafruit_NeoPixel &pixels) {
   const uint8_t gridWidth = 5;
   const uint8_t gridHeight = 5;
 
-  uint8_t heatGrid[gridHeight][gridWidth] = {0};
+  uint8_t heatGrid[gridHeight][gridWidth] = { 0 };
 
   unsigned long previousMillis = 0;
-  const unsigned long interval = 30; // Interval in milliseconds
+  const unsigned long interval = 30;  // Interval in milliseconds
 
-    // Variables for right button press detection
-    bool rightButtonPressed = false;
-    unsigned long pressStartTime = 0;
-    bool longPressHandled = false;
+  // Variables for right button press detection
+  bool rightButtonPressed = false;
+  unsigned long pressStartTime = 0;
+  bool longPressHandled = false;
 
-    bool rightButtonLastState = HIGH; // Assume button not pressed (pull-up resistor)
+  bool rightButtonLastState = HIGH;  // Assume button not pressed (pull-up resistor)
 
-    while (!isLeftButtonPressed() && !animationInterrupted) {
-      Watchdog.reset();
-      unsigned long currentMillis = millis();
+  while (!isLeftButtonPressed() && !animationInterrupted) {
+    Watchdog.reset();
+    unsigned long currentMillis = millis();
 
-      // Check for both buttons pressed
-      if (isBothButtonsPressed()) {
-        handleBothButtonsPressed();
+    // Check for both buttons pressed
+    if (isBothButtonsPressed()) {
+      handleBothButtonsPressed();
+    }
+
+    // Read the current state of the right button
+    bool rightButtonCurrentState = digitalRead(RIGHT_BUTTON_PIN);
+
+    if (rightButtonLastState == HIGH && rightButtonCurrentState == LOW) {
+      // Button was just pressed
+      delay(50);  // Debounce delay
+      rightButtonCurrentState = digitalRead(RIGHT_BUTTON_PIN);
+      if (rightButtonCurrentState == LOW) {
+        rightButtonPressed = true;
+        pressStartTime = millis();
+        longPressHandled = false;
+        Serial.println("Right button pressed.");
       }
+    }
 
-      // Read the current state of the right button
-      bool rightButtonCurrentState = digitalRead(RIGHT_BUTTON_PIN);
-
-      if (rightButtonLastState == HIGH && rightButtonCurrentState == LOW) {
-        // Button was just pressed
-        delay(50); // Debounce delay
-        rightButtonCurrentState = digitalRead(RIGHT_BUTTON_PIN);
-        if (rightButtonCurrentState == LOW) {
-          rightButtonPressed = true;
-          pressStartTime = millis();
-          longPressHandled = false;
-          Serial.println("Right button pressed.");
-        }
-      }
-
-      if (rightButtonLastState == LOW && rightButtonCurrentState == HIGH) {
-        // Button was just released
-        if (rightButtonPressed) {
-          unsigned long pressDuration = millis() - pressStartTime;
-          if (pressDuration < SHORT_PRESS_THRESHOLD) {
-            // Short press detected
-            Serial.println("Short press detected. No change for this animation");
-             // selectedColorIndex = (selectedColorIndex + 1) % numColors;
-             // Serial.print("Color changed to index ");
-            // Serial.println(selectedColorIndex);
-          } else if (pressDuration >= LONG_PRESS_THRESHOLD && !longPressHandled) {
-            // Long press detected upon release, only if not handled during holding
-            Serial.println("Long press detected.");
-            handleLongPress(animationIndex); // Example function
-          }
-          rightButtonPressed = false;
-        }
-      }
-
-      // Handle long press if button is still pressed and threshold exceeded
-      if (rightButtonPressed && !longPressHandled) {
+    if (rightButtonLastState == LOW && rightButtonCurrentState == HIGH) {
+      // Button was just released
+      if (rightButtonPressed) {
         unsigned long pressDuration = millis() - pressStartTime;
-        if (pressDuration >= LONG_PRESS_THRESHOLD) {
-          longPressHandled = true;
-          Serial.println("Long press detected (while holding).");
-          handleLongPress(animationIndex); // Example function
+        if (pressDuration < SHORT_PRESS_THRESHOLD) {
+          // Short press detected
+          Serial.println("Short press detected. No change for this animation");
+          // selectedColorIndex = (selectedColorIndex + 1) % numColors;
+          // Serial.print("Color changed to index ");
+          // Serial.println(selectedColorIndex);
+        } else if (pressDuration >= LONG_PRESS_THRESHOLD && !longPressHandled) {
+          // Long press detected upon release, only if not handled during holding
+          Serial.println("Long press detected.");
+          handleLongPress(animationIndex);  // Example function
         }
+        rightButtonPressed = false;
       }
+    }
 
-      rightButtonLastState = rightButtonCurrentState;
+    // Handle long press if button is still pressed and threshold exceeded
+    if (rightButtonPressed && !longPressHandled) {
+      unsigned long pressDuration = millis() - pressStartTime;
+      if (pressDuration >= LONG_PRESS_THRESHOLD) {
+        longPressHandled = true;
+        Serial.println("Long press detected (while holding).");
+        handleLongPress(animationIndex);  // Example function
+      }
+    }
+
+    rightButtonLastState = rightButtonCurrentState;
 
     if (currentMillis - previousMillis >= interval) {
       previousMillis = currentMillis;
@@ -845,7 +837,7 @@ void flameEffect(Adafruit_NeoPixel &pixels) {
       for (int y = gridHeight - 2; y >= 0; y--) {
         for (int x = 0; x < gridWidth; x++) {
           if (leftGrid[y][x] != -1 || rightGrid[y][x] != -1) {
-            if (random(255) < (sparking / 15)) { // Less frequent higher sparks
+            if (random(255) < (sparking / 15)) {  // Less frequent higher sparks
               heatGrid[y][x] = heatGrid[y][x] + random(160, 255);
               if (heatGrid[y][x] > 255) {
                 heatGrid[y][x] = 255;
@@ -888,7 +880,7 @@ void flameEffect(Adafruit_NeoPixel &pixels) {
 
   // Turn off all pixels after exiting
   setAllNeoPixelsColor(pixels, pixels.Color(0, 0, 0));
-  delay(50); // Debounce delay
+  delay(50);  // Debounce delay
 }
 
 // Wheel function for rainbow colors
@@ -942,90 +934,90 @@ void rainbowCycleNeoPixelDemo(Adafruit_NeoPixel &pixels) {
 */
 // Rainbow Cycle NeoPixel Demo with Short Press, Double Tap, and Long Press Detection
 void rainbowCycleNeoPixelDemo(Adafruit_NeoPixel &pixels) {
-    Serial.println("Rainbow Cycle NeoPixel Demo. Press LEFT button to exit.");
+  Serial.println("Rainbow Cycle NeoPixel Demo. Press LEFT button to exit.");
 
-    uint16_t j = 0;
-    unsigned long previousMillis = 0;
-    const unsigned long interval = 20;
+  uint16_t j = 0;
+  unsigned long previousMillis = 0;
+  const unsigned long interval = 20;
 
-    // Variables for right button press detection
-    bool rightButtonPressed = false;
-    unsigned long pressStartTime = 0;
-    bool longPressHandled = false;
+  // Variables for right button press detection
+  bool rightButtonPressed = false;
+  unsigned long pressStartTime = 0;
+  bool longPressHandled = false;
 
-    bool rightButtonLastState = HIGH; // Assume button not pressed (pull-up resistor)
+  bool rightButtonLastState = HIGH;  // Assume button not pressed (pull-up resistor)
 
-    while (!isLeftButtonPressed() && !animationInterrupted) {
-        Watchdog.reset();
-        unsigned long currentMillis = millis();
+  while (!isLeftButtonPressed() && !animationInterrupted) {
+    Watchdog.reset();
+    unsigned long currentMillis = millis();
 
-        // Check for both buttons pressed
-        if (isBothButtonsPressed()) {
-            handleBothButtonsPressed();
-        }
-
-        // Read the current state of the right button
-        bool rightButtonCurrentState = digitalRead(RIGHT_BUTTON_PIN);
-
-        if (rightButtonLastState == HIGH && rightButtonCurrentState == LOW) {
-            // Button was just pressed
-            delay(50); // Debounce delay
-            rightButtonCurrentState = digitalRead(RIGHT_BUTTON_PIN);
-            if (rightButtonCurrentState == LOW) {
-                rightButtonPressed = true;
-                pressStartTime = millis();
-                longPressHandled = false;
-                Serial.println("Right button pressed.");
-            }
-        }
-
-        if (rightButtonLastState == LOW && rightButtonCurrentState == HIGH) {
-            // Button was just released
-            if (rightButtonPressed) {
-                unsigned long pressDuration = millis() - pressStartTime;
-                if (pressDuration < SHORT_PRESS_THRESHOLD) {
-                    // Short press detected
-                    Serial.println("Short press detected. No change for this animation");
-                   // selectedColorIndex = (selectedColorIndex + 1) % numColors;
-                   // Serial.print("Color changed to index ");
-                    // Serial.println(selectedColorIndex);
-                } else if (pressDuration >= LONG_PRESS_THRESHOLD && !longPressHandled) {
-                    // Long press detected upon release, only if not handled during holding
-                    Serial.println("Long press detected.");
-                    handleLongPress(animationIndex); // Example function
-                }
-                rightButtonPressed = false;
-            }
-        }
-
-        // Handle long press if button is still pressed and threshold exceeded
-        if (rightButtonPressed && !longPressHandled) {
-            unsigned long pressDuration = millis() - pressStartTime;
-            if (pressDuration >= LONG_PRESS_THRESHOLD) {
-                longPressHandled = true;
-                Serial.println("Long press detected (while holding).");
-                handleLongPress(animationIndex); // Example function
-            }
-        }
-
-        rightButtonLastState = rightButtonCurrentState;
-
-        if (currentMillis - previousMillis >= interval) {
-            previousMillis = currentMillis;
-
-            for (int i = 0; i < pixels.numPixels(); i++) {
-                pixels.setPixelColor(i, Wheel((i * 256 / pixels.numPixels() + j) & 255, pixels));
-            }
-            pixels.show();
-            j++;
-        }
-
-        delay(1);
+    // Check for both buttons pressed
+    if (isBothButtonsPressed()) {
+      handleBothButtonsPressed();
     }
 
-    // Turn off all pixels after exiting
-    setAllNeoPixelsColor(pixels, 0);
-    delay(50);
+    // Read the current state of the right button
+    bool rightButtonCurrentState = digitalRead(RIGHT_BUTTON_PIN);
+
+    if (rightButtonLastState == HIGH && rightButtonCurrentState == LOW) {
+      // Button was just pressed
+      delay(50);  // Debounce delay
+      rightButtonCurrentState = digitalRead(RIGHT_BUTTON_PIN);
+      if (rightButtonCurrentState == LOW) {
+        rightButtonPressed = true;
+        pressStartTime = millis();
+        longPressHandled = false;
+        Serial.println("Right button pressed.");
+      }
+    }
+
+    if (rightButtonLastState == LOW && rightButtonCurrentState == HIGH) {
+      // Button was just released
+      if (rightButtonPressed) {
+        unsigned long pressDuration = millis() - pressStartTime;
+        if (pressDuration < SHORT_PRESS_THRESHOLD) {
+          // Short press detected
+          Serial.println("Short press detected. No change for this animation");
+          // selectedColorIndex = (selectedColorIndex + 1) % numColors;
+          // Serial.print("Color changed to index ");
+          // Serial.println(selectedColorIndex);
+        } else if (pressDuration >= LONG_PRESS_THRESHOLD && !longPressHandled) {
+          // Long press detected upon release, only if not handled during holding
+          Serial.println("Long press detected.");
+          handleLongPress(animationIndex);  // Example function
+        }
+        rightButtonPressed = false;
+      }
+    }
+
+    // Handle long press if button is still pressed and threshold exceeded
+    if (rightButtonPressed && !longPressHandled) {
+      unsigned long pressDuration = millis() - pressStartTime;
+      if (pressDuration >= LONG_PRESS_THRESHOLD) {
+        longPressHandled = true;
+        Serial.println("Long press detected (while holding).");
+        handleLongPress(animationIndex);  // Example function
+      }
+    }
+
+    rightButtonLastState = rightButtonCurrentState;
+
+    if (currentMillis - previousMillis >= interval) {
+      previousMillis = currentMillis;
+
+      for (int i = 0; i < pixels.numPixels(); i++) {
+        pixels.setPixelColor(i, Wheel((i * 256 / pixels.numPixels() + j) & 255, pixels));
+      }
+      pixels.show();
+      j++;
+    }
+
+    delay(1);
+  }
+
+  // Turn off all pixels after exiting
+  setAllNeoPixelsColor(pixels, 0);
+  delay(50);
 }
 
 
@@ -1035,97 +1027,97 @@ void rainbowCycleNeoPixelDemo(Adafruit_NeoPixel &pixels) {
 
 // Bouncing Ball NeoPixel Demo with Short Press, Double Tap, and Long Press Detection
 void bouncingBallNeoPixelDemo(Adafruit_NeoPixel &pixels) {
-    Serial.println("Bouncing Ball NeoPixel Demo. Press LEFT button to exit.");
+  Serial.println("Bouncing Ball NeoPixel Demo. Press LEFT button to exit.");
 
-    int position = 0;
-    int velocity = 1;
+  int position = 0;
+  int velocity = 1;
 
-    int selectedColorIndex = 0; // Start with the first color
-    bool rightButtonLastState = HIGH; // Assume button not pressed (pull-up resistor)
+  int selectedColorIndex = 0;        // Start with the first color
+  bool rightButtonLastState = HIGH;  // Assume button not pressed (pull-up resistor)
 
-    unsigned long previousMillis = 0;
-    const unsigned long interval = 20;
+  unsigned long previousMillis = 0;
+  const unsigned long interval = 20;
 
-    // Variables for press duration detection
-    bool rightButtonPressed = false;
-    unsigned long pressStartTime = 0;
-    bool longPressHandled = false;
+  // Variables for press duration detection
+  bool rightButtonPressed = false;
+  unsigned long pressStartTime = 0;
+  bool longPressHandled = false;
 
-    while (!isLeftButtonPressed() && !animationInterrupted) {
-        Watchdog.reset();
-        unsigned long currentMillis = millis();
+  while (!isLeftButtonPressed() && !animationInterrupted) {
+    Watchdog.reset();
+    unsigned long currentMillis = millis();
 
-        // Check for both buttons pressed
-        if (isBothButtonsPressed()) {
-            handleBothButtonsPressed();
-        }
-
-        // Read the current state of the right button
-        bool rightButtonCurrentState = digitalRead(RIGHT_BUTTON_PIN);
-
-        if (rightButtonLastState == HIGH && rightButtonCurrentState == LOW) {
-            // Button was just pressed
-            delay(50); // Debounce delay
-            rightButtonCurrentState = digitalRead(RIGHT_BUTTON_PIN);
-            if (rightButtonCurrentState == LOW) {
-                rightButtonPressed = true;
-                pressStartTime = millis();
-                longPressHandled = false;
-                Serial.println("Right button pressed.");
-            }
-        }
-
-        if (rightButtonLastState == LOW && rightButtonCurrentState == HIGH) {
-            // Button was just released
-            if (rightButtonPressed) {
-                unsigned long pressDuration = millis() - pressStartTime;
-                if (pressDuration < SHORT_PRESS_THRESHOLD) {
-                    // Short press detected
-                    Serial.println("Short press detected.");
-                    selectedColorIndex = (selectedColorIndex + 1) % numColors;
-                    Serial.print("Color changed to index ");
-                    Serial.println(selectedColorIndex);
-                } else if (pressDuration >= LONG_PRESS_THRESHOLD && !longPressHandled) {
-                    // Long press detected upon release, only if not handled during holding
-                    Serial.println("Long press detected.");
-                    handleLongPress(animationIndex); // Example function
-                }
-                rightButtonPressed = false;
-            }
-        }
-
-        // Handle long press if button is still pressed and threshold exceeded
-        if (rightButtonPressed && !longPressHandled) {
-            unsigned long pressDuration = millis() - pressStartTime;
-            if (pressDuration >= LONG_PRESS_THRESHOLD) {
-                longPressHandled = true;
-                Serial.println("Long press detected (while holding).");
-                handleLongPress(animationIndex); // Example function
-            }
-        }
-
-        rightButtonLastState = rightButtonCurrentState;
-
-        if (currentMillis - previousMillis >= interval) {
-            previousMillis = currentMillis;
-
-            setAllNeoPixelsColor(pixels, 0);
-            uint8_t red = colorArray[selectedColorIndex][0];
-            uint8_t green = colorArray[selectedColorIndex][1];
-            uint8_t blue = colorArray[selectedColorIndex][2];
-            pixels.setPixelColor(position, pixels.Color(red, green, blue));
-            pixels.show();
-            position += velocity;
-            if (position == 0 || position == pixels.numPixels() - 1) {
-                velocity = -velocity;
-            }
-        }
-        delay(1);
+    // Check for both buttons pressed
+    if (isBothButtonsPressed()) {
+      handleBothButtonsPressed();
     }
 
-    // Turn off all pixels after exiting
-    setAllNeoPixelsColor(pixels, 0);
-    delay(50);
+    // Read the current state of the right button
+    bool rightButtonCurrentState = digitalRead(RIGHT_BUTTON_PIN);
+
+    if (rightButtonLastState == HIGH && rightButtonCurrentState == LOW) {
+      // Button was just pressed
+      delay(50);  // Debounce delay
+      rightButtonCurrentState = digitalRead(RIGHT_BUTTON_PIN);
+      if (rightButtonCurrentState == LOW) {
+        rightButtonPressed = true;
+        pressStartTime = millis();
+        longPressHandled = false;
+        Serial.println("Right button pressed.");
+      }
+    }
+
+    if (rightButtonLastState == LOW && rightButtonCurrentState == HIGH) {
+      // Button was just released
+      if (rightButtonPressed) {
+        unsigned long pressDuration = millis() - pressStartTime;
+        if (pressDuration < SHORT_PRESS_THRESHOLD) {
+          // Short press detected
+          Serial.println("Short press detected.");
+          selectedColorIndex = (selectedColorIndex + 1) % numColors;
+          Serial.print("Color changed to index ");
+          Serial.println(selectedColorIndex);
+        } else if (pressDuration >= LONG_PRESS_THRESHOLD && !longPressHandled) {
+          // Long press detected upon release, only if not handled during holding
+          Serial.println("Long press detected.");
+          handleLongPress(animationIndex);  // Example function
+        }
+        rightButtonPressed = false;
+      }
+    }
+
+    // Handle long press if button is still pressed and threshold exceeded
+    if (rightButtonPressed && !longPressHandled) {
+      unsigned long pressDuration = millis() - pressStartTime;
+      if (pressDuration >= LONG_PRESS_THRESHOLD) {
+        longPressHandled = true;
+        Serial.println("Long press detected (while holding).");
+        handleLongPress(animationIndex);  // Example function
+      }
+    }
+
+    rightButtonLastState = rightButtonCurrentState;
+
+    if (currentMillis - previousMillis >= interval) {
+      previousMillis = currentMillis;
+
+      setAllNeoPixelsColor(pixels, 0);
+      uint8_t red = colorArray[selectedColorIndex][0];
+      uint8_t green = colorArray[selectedColorIndex][1];
+      uint8_t blue = colorArray[selectedColorIndex][2];
+      pixels.setPixelColor(position, pixels.Color(red, green, blue));
+      pixels.show();
+      position += velocity;
+      if (position == 0 || position == pixels.numPixels() - 1) {
+        velocity = -velocity;
+      }
+    }
+    delay(1);
+  }
+
+  // Turn off all pixels after exiting
+  setAllNeoPixelsColor(pixels, 0);
+  delay(50);
 }
 
 
@@ -1222,68 +1214,68 @@ void plasmaEffectNeoPixelDemo(Adafruit_NeoPixel &pixels) {
   unsigned long previousMillis = 0;
   const unsigned long interval = 50;
 
-    // Variables for right button press detection
-    bool rightButtonPressed = false;
-    unsigned long pressStartTime = 0;
-    bool longPressHandled = false;
+  // Variables for right button press detection
+  bool rightButtonPressed = false;
+  unsigned long pressStartTime = 0;
+  bool longPressHandled = false;
 
-    bool rightButtonLastState = HIGH; // Assume button not pressed (pull-up resistor)
+  bool rightButtonLastState = HIGH;  // Assume button not pressed (pull-up resistor)
 
-    while (!isLeftButtonPressed() && !animationInterrupted) {
-        Watchdog.reset();
-        unsigned long currentMillis = millis();
+  while (!isLeftButtonPressed() && !animationInterrupted) {
+    Watchdog.reset();
+    unsigned long currentMillis = millis();
 
-        // Check for both buttons pressed
-        if (isBothButtonsPressed()) {
-            handleBothButtonsPressed();
+    // Check for both buttons pressed
+    if (isBothButtonsPressed()) {
+      handleBothButtonsPressed();
+    }
+
+    // Read the current state of the right button
+    bool rightButtonCurrentState = digitalRead(RIGHT_BUTTON_PIN);
+
+    if (rightButtonLastState == HIGH && rightButtonCurrentState == LOW) {
+      // Button was just pressed
+      delay(50);  // Debounce delay
+      rightButtonCurrentState = digitalRead(RIGHT_BUTTON_PIN);
+      if (rightButtonCurrentState == LOW) {
+        rightButtonPressed = true;
+        pressStartTime = millis();
+        longPressHandled = false;
+        Serial.println("Right button pressed.");
+      }
+    }
+
+    if (rightButtonLastState == LOW && rightButtonCurrentState == HIGH) {
+      // Button was just released
+      if (rightButtonPressed) {
+        unsigned long pressDuration = millis() - pressStartTime;
+        if (pressDuration < SHORT_PRESS_THRESHOLD) {
+          // Short press detected
+          Serial.println("Short press detected. No change for this animation");
+          // selectedColorIndex = (selectedColorIndex + 1) % numColors;
+          // Serial.print("Color changed to index ");
+          // Serial.println(selectedColorIndex);
+        } else if (pressDuration >= LONG_PRESS_THRESHOLD && !longPressHandled) {
+          // Long press detected upon release, only if not handled during holding
+          Serial.println("Long press detected.");
+          handleLongPress(animationIndex);  // Example function
         }
+        rightButtonPressed = false;
+      }
+    }
 
-        // Read the current state of the right button
-        bool rightButtonCurrentState = digitalRead(RIGHT_BUTTON_PIN);
+    // Handle long press if button is still pressed and threshold exceeded
+    if (rightButtonPressed && !longPressHandled) {
+      unsigned long pressDuration = millis() - pressStartTime;
+      if (pressDuration >= LONG_PRESS_THRESHOLD) {
+        longPressHandled = true;
+        Serial.println("Long press detected (while holding).");
+        handleLongPress(animationIndex);  // Example function
+      }
+    }
 
-        if (rightButtonLastState == HIGH && rightButtonCurrentState == LOW) {
-            // Button was just pressed
-            delay(50); // Debounce delay
-            rightButtonCurrentState = digitalRead(RIGHT_BUTTON_PIN);
-            if (rightButtonCurrentState == LOW) {
-                rightButtonPressed = true;
-                pressStartTime = millis();
-                longPressHandled = false;
-                Serial.println("Right button pressed.");
-            }
-        }
+    rightButtonLastState = rightButtonCurrentState;
 
-        if (rightButtonLastState == LOW && rightButtonCurrentState == HIGH) {
-            // Button was just released
-            if (rightButtonPressed) {
-                unsigned long pressDuration = millis() - pressStartTime;
-                if (pressDuration < SHORT_PRESS_THRESHOLD) {
-                    // Short press detected
-                    Serial.println("Short press detected. No change for this animation");
-                   // selectedColorIndex = (selectedColorIndex + 1) % numColors;
-                   // Serial.print("Color changed to index ");
-                    // Serial.println(selectedColorIndex);
-                } else if (pressDuration >= LONG_PRESS_THRESHOLD && !longPressHandled) {
-                    // Long press detected upon release, only if not handled during holding
-                    Serial.println("Long press detected.");
-                    handleLongPress(animationIndex); // Example function
-                }
-                rightButtonPressed = false;
-            }
-        }
-
-        // Handle long press if button is still pressed and threshold exceeded
-        if (rightButtonPressed && !longPressHandled) {
-            unsigned long pressDuration = millis() - pressStartTime;
-            if (pressDuration >= LONG_PRESS_THRESHOLD) {
-                longPressHandled = true;
-                Serial.println("Long press detected (while holding).");
-                handleLongPress(animationIndex); // Example function
-            }
-        }
-
-        rightButtonLastState = rightButtonCurrentState;
-        
     if (currentMillis - previousMillis >= interval) {
       previousMillis = currentMillis;
 
@@ -1308,68 +1300,68 @@ void plasmaEffectNeoPixelDemo(Adafruit_NeoPixel &pixels) {
 void cyberpunkGlitchNeoPixelDemo(Adafruit_NeoPixel &pixels) {
   Serial.println("Cyberpunk Glitch NeoPixel Demo. Press LEFT button to exit.");
 
-  int selectedColorIndex = 0; // Start with the first color
-    // Variables for right button press detection
-    bool rightButtonPressed = false;
-    unsigned long pressStartTime = 0;
-    bool longPressHandled = false;
+  int selectedColorIndex = 0;  // Start with the first color
+  // Variables for right button press detection
+  bool rightButtonPressed = false;
+  unsigned long pressStartTime = 0;
+  bool longPressHandled = false;
 
-    bool rightButtonLastState = HIGH; // Assume button not pressed (pull-up resistor)
+  bool rightButtonLastState = HIGH;  // Assume button not pressed (pull-up resistor)
 
-    while (!isLeftButtonPressed() && !animationInterrupted) {
-        Watchdog.reset();
-        unsigned long currentMillis = millis();
+  while (!isLeftButtonPressed() && !animationInterrupted) {
+    Watchdog.reset();
+    unsigned long currentMillis = millis();
 
-        // Check for both buttons pressed
-        if (isBothButtonsPressed()) {
-            handleBothButtonsPressed();
+    // Check for both buttons pressed
+    if (isBothButtonsPressed()) {
+      handleBothButtonsPressed();
+    }
+
+    // Read the current state of the right button
+    bool rightButtonCurrentState = digitalRead(RIGHT_BUTTON_PIN);
+
+    if (rightButtonLastState == HIGH && rightButtonCurrentState == LOW) {
+      // Button was just pressed
+      delay(50);  // Debounce delay
+      rightButtonCurrentState = digitalRead(RIGHT_BUTTON_PIN);
+      if (rightButtonCurrentState == LOW) {
+        rightButtonPressed = true;
+        pressStartTime = millis();
+        longPressHandled = false;
+        Serial.println("Right button pressed.");
+      }
+    }
+
+    if (rightButtonLastState == LOW && rightButtonCurrentState == HIGH) {
+      // Button was just released
+      if (rightButtonPressed) {
+        unsigned long pressDuration = millis() - pressStartTime;
+        if (pressDuration < SHORT_PRESS_THRESHOLD) {
+          // Short press detected
+          Serial.println("Short press detected.");
+          selectedColorIndex = (selectedColorIndex + 1) % numColors;
+          Serial.print("Color changed to index ");
+          Serial.println(selectedColorIndex);
+        } else if (pressDuration >= LONG_PRESS_THRESHOLD && !longPressHandled) {
+          // Long press detected upon release, only if not handled during holding
+          Serial.println("Long press detected.");
+          handleLongPress(animationIndex);  // Example function
         }
+        rightButtonPressed = false;
+      }
+    }
 
-        // Read the current state of the right button
-        bool rightButtonCurrentState = digitalRead(RIGHT_BUTTON_PIN);
+    // Handle long press if button is still pressed and threshold exceeded
+    if (rightButtonPressed && !longPressHandled) {
+      unsigned long pressDuration = millis() - pressStartTime;
+      if (pressDuration >= LONG_PRESS_THRESHOLD) {
+        longPressHandled = true;
+        Serial.println("Long press detected (while holding).");
+        handleLongPress(animationIndex);  // Example function
+      }
+    }
 
-        if (rightButtonLastState == HIGH && rightButtonCurrentState == LOW) {
-            // Button was just pressed
-            delay(50); // Debounce delay
-            rightButtonCurrentState = digitalRead(RIGHT_BUTTON_PIN);
-            if (rightButtonCurrentState == LOW) {
-                rightButtonPressed = true;
-                pressStartTime = millis();
-                longPressHandled = false;
-                Serial.println("Right button pressed.");
-            }
-        }
-
-        if (rightButtonLastState == LOW && rightButtonCurrentState == HIGH) {
-            // Button was just released
-            if (rightButtonPressed) {
-                unsigned long pressDuration = millis() - pressStartTime;
-                if (pressDuration < SHORT_PRESS_THRESHOLD) {
-                    // Short press detected
-                    Serial.println("Short press detected.");
-                    selectedColorIndex = (selectedColorIndex + 1) % numColors;
-                    Serial.print("Color changed to index ");
-                     Serial.println(selectedColorIndex);
-                } else if (pressDuration >= LONG_PRESS_THRESHOLD && !longPressHandled) {
-                    // Long press detected upon release, only if not handled during holding
-                    Serial.println("Long press detected.");
-                    handleLongPress(animationIndex); // Example function
-                }
-                rightButtonPressed = false;
-            }
-        }
-
-        // Handle long press if button is still pressed and threshold exceeded
-        if (rightButtonPressed && !longPressHandled) {
-            unsigned long pressDuration = millis() - pressStartTime;
-            if (pressDuration >= LONG_PRESS_THRESHOLD) {
-                longPressHandled = true;
-                Serial.println("Long press detected (while holding).");
-                handleLongPress(animationIndex); // Example function
-            }
-        }
-
-        rightButtonLastState = rightButtonCurrentState;
+    rightButtonLastState = rightButtonCurrentState;
 
     int glitchPixel = random(0, pixels.numPixels());
     uint8_t red = colorArray[selectedColorIndex][0];
@@ -1396,78 +1388,78 @@ void cyberpunkCircuitNeoPixelDemo(Adafruit_NeoPixel &pixels) {
 
   int index = 0;
 
-  int selectedColorIndex1 = 0; // Start with the first color
-  int selectedColorIndex2 = 1; // Start with the second color
+  int selectedColorIndex1 = 0;  // Start with the first color
+  int selectedColorIndex2 = 1;  // Start with the second color
   //bool rightButtonLastState = HIGH; // Assume button not pressed (pull-up resistor)
 
   unsigned long previousMillis = 0;
   const unsigned long interval = 100;
-    // Variables for right button press detection
-    
-    bool rightButtonPressed = false;
-    unsigned long pressStartTime = 0;
-    bool longPressHandled = false;
+  // Variables for right button press detection
 
-    bool rightButtonLastState = HIGH; // Assume button not pressed (pull-up resistor)
+  bool rightButtonPressed = false;
+  unsigned long pressStartTime = 0;
+  bool longPressHandled = false;
 
-    while (!isLeftButtonPressed() && !animationInterrupted) {
-        Watchdog.reset();
-        unsigned long currentMillis = millis();
+  bool rightButtonLastState = HIGH;  // Assume button not pressed (pull-up resistor)
 
-        // Check for both buttons pressed
-        if (isBothButtonsPressed()) {
-            handleBothButtonsPressed();
+  while (!isLeftButtonPressed() && !animationInterrupted) {
+    Watchdog.reset();
+    unsigned long currentMillis = millis();
+
+    // Check for both buttons pressed
+    if (isBothButtonsPressed()) {
+      handleBothButtonsPressed();
+    }
+
+    // Read the current state of the right button
+    bool rightButtonCurrentState = digitalRead(RIGHT_BUTTON_PIN);
+
+    if (rightButtonLastState == HIGH && rightButtonCurrentState == LOW) {
+      // Button was just pressed
+      delay(50);  // Debounce delay
+      rightButtonCurrentState = digitalRead(RIGHT_BUTTON_PIN);
+      if (rightButtonCurrentState == LOW) {
+        rightButtonPressed = true;
+        pressStartTime = millis();
+        longPressHandled = false;
+        Serial.println("Right button pressed.");
+      }
+    }
+
+    if (rightButtonLastState == LOW && rightButtonCurrentState == HIGH) {
+      // Button was just released
+      if (rightButtonPressed) {
+        unsigned long pressDuration = millis() - pressStartTime;
+        if (pressDuration < SHORT_PRESS_THRESHOLD) {
+          // Short press detected
+          Serial.println("Short press detected.");
+          // Button is pressed, change colors
+          selectedColorIndex1 = (selectedColorIndex1 + 1) % numColors;
+          selectedColorIndex2 = (selectedColorIndex2 + 1) % numColors;
+          Serial.print("Colors changed to indexes ");
+          Serial.print(selectedColorIndex1);
+          Serial.print(" and ");
+          Serial.println(selectedColorIndex2);
+        } else if (pressDuration >= LONG_PRESS_THRESHOLD && !longPressHandled) {
+          // Long press detected upon release, only if not handled during holding
+          Serial.println("Long press detected.");
+          handleLongPress(animationIndex);  // Example function
         }
+        rightButtonPressed = false;
+      }
+    }
 
-        // Read the current state of the right button
-        bool rightButtonCurrentState = digitalRead(RIGHT_BUTTON_PIN);
+    // Handle long press if button is still pressed and threshold exceeded
+    if (rightButtonPressed && !longPressHandled) {
+      unsigned long pressDuration = millis() - pressStartTime;
+      if (pressDuration >= LONG_PRESS_THRESHOLD) {
+        longPressHandled = true;
+        Serial.println("Long press detected (while holding).");
+        handleLongPress(animationIndex);  // Example function
+      }
+    }
 
-        if (rightButtonLastState == HIGH && rightButtonCurrentState == LOW) {
-            // Button was just pressed
-            delay(50); // Debounce delay
-            rightButtonCurrentState = digitalRead(RIGHT_BUTTON_PIN);
-            if (rightButtonCurrentState == LOW) {
-                rightButtonPressed = true;
-                pressStartTime = millis();
-                longPressHandled = false;
-                Serial.println("Right button pressed.");
-            }
-        }
-
-        if (rightButtonLastState == LOW && rightButtonCurrentState == HIGH) {
-            // Button was just released
-            if (rightButtonPressed) {
-                unsigned long pressDuration = millis() - pressStartTime;
-                if (pressDuration < SHORT_PRESS_THRESHOLD) {
-                    // Short press detected
-                    Serial.println("Short press detected.");
-                    // Button is pressed, change colors
-                    selectedColorIndex1 = (selectedColorIndex1 + 1) % numColors;
-                    selectedColorIndex2 = (selectedColorIndex2 + 1) % numColors;
-                    Serial.print("Colors changed to indexes ");
-                    Serial.print(selectedColorIndex1);
-                    Serial.print(" and ");
-                    Serial.println(selectedColorIndex2);
-                } else if (pressDuration >= LONG_PRESS_THRESHOLD && !longPressHandled) {
-                    // Long press detected upon release, only if not handled during holding
-                    Serial.println("Long press detected.");
-                    handleLongPress(animationIndex); // Example function
-                }
-                rightButtonPressed = false;
-            }
-        }
-
-        // Handle long press if button is still pressed and threshold exceeded
-        if (rightButtonPressed && !longPressHandled) {
-            unsigned long pressDuration = millis() - pressStartTime;
-            if (pressDuration >= LONG_PRESS_THRESHOLD) {
-                longPressHandled = true;
-                Serial.println("Long press detected (while holding).");
-                handleLongPress(animationIndex); // Example function
-            }
-        }
-
-        rightButtonLastState = rightButtonCurrentState;
+    rightButtonLastState = rightButtonCurrentState;
 
     if (currentMillis - previousMillis >= interval) {
       previousMillis = currentMillis;
@@ -1505,68 +1497,68 @@ void accelerometerNeoPixelDemo(Adafruit_NeoPixel &pixels) {
 
   Serial.println("Accelerometer NeoPixel Demo. Press LEFT button to exit.");
 
-  int selectedColorIndex = 0; // Start with the first color
-    // Variables for right button press detection
-    bool rightButtonPressed = false;
-    unsigned long pressStartTime = 0;
-    bool longPressHandled = false;
+  int selectedColorIndex = 0;  // Start with the first color
+  // Variables for right button press detection
+  bool rightButtonPressed = false;
+  unsigned long pressStartTime = 0;
+  bool longPressHandled = false;
 
-    bool rightButtonLastState = HIGH; // Assume button not pressed (pull-up resistor)
+  bool rightButtonLastState = HIGH;  // Assume button not pressed (pull-up resistor)
 
-    while (!isLeftButtonPressed() && !animationInterrupted) {
-        Watchdog.reset();
-        unsigned long currentMillis = millis();
+  while (!isLeftButtonPressed() && !animationInterrupted) {
+    Watchdog.reset();
+    unsigned long currentMillis = millis();
 
-        // Check for both buttons pressed
-        if (isBothButtonsPressed()) {
-            handleBothButtonsPressed();
+    // Check for both buttons pressed
+    if (isBothButtonsPressed()) {
+      handleBothButtonsPressed();
+    }
+
+    // Read the current state of the right button
+    bool rightButtonCurrentState = digitalRead(RIGHT_BUTTON_PIN);
+
+    if (rightButtonLastState == HIGH && rightButtonCurrentState == LOW) {
+      // Button was just pressed
+      delay(50);  // Debounce delay
+      rightButtonCurrentState = digitalRead(RIGHT_BUTTON_PIN);
+      if (rightButtonCurrentState == LOW) {
+        rightButtonPressed = true;
+        pressStartTime = millis();
+        longPressHandled = false;
+        Serial.println("Right button pressed.");
+      }
+    }
+
+    if (rightButtonLastState == LOW && rightButtonCurrentState == HIGH) {
+      // Button was just released
+      if (rightButtonPressed) {
+        unsigned long pressDuration = millis() - pressStartTime;
+        if (pressDuration < SHORT_PRESS_THRESHOLD) {
+          // Short press detected
+          Serial.println("Short press detected. No change for this animation");
+          selectedColorIndex = (selectedColorIndex + 1) % numColors;
+          Serial.print("Color changed to index ");
+          Serial.println(selectedColorIndex);
+        } else if (pressDuration >= LONG_PRESS_THRESHOLD && !longPressHandled) {
+          // Long press detected upon release, only if not handled during holding
+          Serial.println("Long press detected.");
+          handleLongPress(animationIndex);  // Example function
         }
+        rightButtonPressed = false;
+      }
+    }
 
-        // Read the current state of the right button
-        bool rightButtonCurrentState = digitalRead(RIGHT_BUTTON_PIN);
+    // Handle long press if button is still pressed and threshold exceeded
+    if (rightButtonPressed && !longPressHandled) {
+      unsigned long pressDuration = millis() - pressStartTime;
+      if (pressDuration >= LONG_PRESS_THRESHOLD) {
+        longPressHandled = true;
+        Serial.println("Long press detected (while holding).");
+        handleLongPress(animationIndex);  // Example function
+      }
+    }
 
-        if (rightButtonLastState == HIGH && rightButtonCurrentState == LOW) {
-            // Button was just pressed
-            delay(50); // Debounce delay
-            rightButtonCurrentState = digitalRead(RIGHT_BUTTON_PIN);
-            if (rightButtonCurrentState == LOW) {
-                rightButtonPressed = true;
-                pressStartTime = millis();
-                longPressHandled = false;
-                Serial.println("Right button pressed.");
-            }
-        }
-
-        if (rightButtonLastState == LOW && rightButtonCurrentState == HIGH) {
-            // Button was just released
-            if (rightButtonPressed) {
-                unsigned long pressDuration = millis() - pressStartTime;
-                if (pressDuration < SHORT_PRESS_THRESHOLD) {
-                    // Short press detected
-                    Serial.println("Short press detected. No change for this animation");
-                    selectedColorIndex = (selectedColorIndex + 1) % numColors;
-                    Serial.print("Color changed to index ");
-                     Serial.println(selectedColorIndex);
-                } else if (pressDuration >= LONG_PRESS_THRESHOLD && !longPressHandled) {
-                    // Long press detected upon release, only if not handled during holding
-                    Serial.println("Long press detected.");
-                    handleLongPress(animationIndex); // Example function
-                }
-                rightButtonPressed = false;
-            }
-        }
-
-        // Handle long press if button is still pressed and threshold exceeded
-        if (rightButtonPressed && !longPressHandled) {
-            unsigned long pressDuration = millis() - pressStartTime;
-            if (pressDuration >= LONG_PRESS_THRESHOLD) {
-                longPressHandled = true;
-                Serial.println("Long press detected (while holding).");
-                handleLongPress(animationIndex); // Example function
-            }
-        }
-
-        rightButtonLastState = rightButtonCurrentState;
+    rightButtonLastState = rightButtonCurrentState;
 
     float x, y, z;
     getAccelerometerValues(lis, x, y, z);
@@ -1608,7 +1600,7 @@ void accelerometerNeoPixelDemo(Adafruit_NeoPixel &pixels) {
 
   // Turn off all pixels after exiting
   setAllNeoPixelsColor(pixels, pixels.Color(0, 0, 0));
-  delay(50); // Debounce delay
+  delay(50);  // Debounce delay
 }
 
 
@@ -1621,81 +1613,81 @@ void eyeballNeoPixelDemo(Adafruit_NeoPixel &pixels) {
 
   // Eyeball positions for movement
   int positions[][2] = {
-    {2, 2}, {1, 2}, {3, 2}, {2, 1}, {2, 3}, {1, 1}, {3, 1}, {1, 3}, {3, 3}
+    { 2, 2 }, { 1, 2 }, { 3, 2 }, { 2, 1 }, { 2, 3 }, { 1, 1 }, { 3, 1 }, { 1, 3 }, { 3, 3 }
   };
   int numPositions = sizeof(positions) / sizeof(positions[0]);
   int index = 0;
 
   // Shape index for changing shapes
-  int shapeIndex = 0; // Start with the original shape
+  int shapeIndex = 0;  // Start with the original shape
   const int numShapes = 3;
 
- // bool rightButtonLastState = HIGH; // Assume button not pressed (pull-up resistor)
+  // bool rightButtonLastState = HIGH; // Assume button not pressed (pull-up resistor)
 
   unsigned long previousMillis = 0;
   const unsigned long interval = 500;
-    // Variables for right button press detection
-    bool rightButtonPressed = false;
-    unsigned long pressStartTime = 0;
-    bool longPressHandled = false;
+  // Variables for right button press detection
+  bool rightButtonPressed = false;
+  unsigned long pressStartTime = 0;
+  bool longPressHandled = false;
 
-    bool rightButtonLastState = HIGH; // Assume button not pressed (pull-up resistor)
+  bool rightButtonLastState = HIGH;  // Assume button not pressed (pull-up resistor)
 
-    while (!isLeftButtonPressed() && !animationInterrupted) {
-        Watchdog.reset();
-        unsigned long currentMillis = millis();
+  while (!isLeftButtonPressed() && !animationInterrupted) {
+    Watchdog.reset();
+    unsigned long currentMillis = millis();
 
-        // Check for both buttons pressed
-        if (isBothButtonsPressed()) {
-            handleBothButtonsPressed();
+    // Check for both buttons pressed
+    if (isBothButtonsPressed()) {
+      handleBothButtonsPressed();
+    }
+
+    // Read the current state of the right button
+    bool rightButtonCurrentState = digitalRead(RIGHT_BUTTON_PIN);
+
+    if (rightButtonLastState == HIGH && rightButtonCurrentState == LOW) {
+      // Button was just pressed
+      delay(50);  // Debounce delay
+      rightButtonCurrentState = digitalRead(RIGHT_BUTTON_PIN);
+      if (rightButtonCurrentState == LOW) {
+        rightButtonPressed = true;
+        pressStartTime = millis();
+        longPressHandled = false;
+        Serial.println("Right button pressed.");
+      }
+    }
+
+    if (rightButtonLastState == LOW && rightButtonCurrentState == HIGH) {
+      // Button was just released
+      if (rightButtonPressed) {
+        unsigned long pressDuration = millis() - pressStartTime;
+        if (pressDuration < SHORT_PRESS_THRESHOLD) {
+          // Short press detected
+          Serial.println("Short press detected.");
+          // Button is pressed, change shape
+          shapeIndex = (shapeIndex + 1) % numShapes;
+          Serial.print("Shape changed to index ");
+          Serial.println(shapeIndex);
+        } else if (pressDuration >= LONG_PRESS_THRESHOLD && !longPressHandled) {
+          // Long press detected upon release, only if not handled during holding
+          Serial.println("Long press detected.");
+          handleLongPress(animationIndex);  // Example function
         }
+        rightButtonPressed = false;
+      }
+    }
 
-        // Read the current state of the right button
-        bool rightButtonCurrentState = digitalRead(RIGHT_BUTTON_PIN);
+    // Handle long press if button is still pressed and threshold exceeded
+    if (rightButtonPressed && !longPressHandled) {
+      unsigned long pressDuration = millis() - pressStartTime;
+      if (pressDuration >= LONG_PRESS_THRESHOLD) {
+        longPressHandled = true;
+        Serial.println("Long press detected (while holding).");
+        handleLongPress(animationIndex);  // Example function
+      }
+    }
 
-        if (rightButtonLastState == HIGH && rightButtonCurrentState == LOW) {
-            // Button was just pressed
-            delay(50); // Debounce delay
-            rightButtonCurrentState = digitalRead(RIGHT_BUTTON_PIN);
-            if (rightButtonCurrentState == LOW) {
-                rightButtonPressed = true;
-                pressStartTime = millis();
-                longPressHandled = false;
-                Serial.println("Right button pressed.");
-            }
-        }
-
-        if (rightButtonLastState == LOW && rightButtonCurrentState == HIGH) {
-            // Button was just released
-            if (rightButtonPressed) {
-                unsigned long pressDuration = millis() - pressStartTime;
-                if (pressDuration < SHORT_PRESS_THRESHOLD) {
-                    // Short press detected
-                    Serial.println("Short press detected.");
-                    // Button is pressed, change shape
-                    shapeIndex = (shapeIndex + 1) % numShapes;
-                    Serial.print("Shape changed to index ");
-                    Serial.println(shapeIndex);
-                } else if (pressDuration >= LONG_PRESS_THRESHOLD && !longPressHandled) {
-                    // Long press detected upon release, only if not handled during holding
-                    Serial.println("Long press detected.");
-                    handleLongPress(animationIndex); // Example function
-                }
-                rightButtonPressed = false;
-            }
-        }
-
-        // Handle long press if button is still pressed and threshold exceeded
-        if (rightButtonPressed && !longPressHandled) {
-            unsigned long pressDuration = millis() - pressStartTime;
-            if (pressDuration >= LONG_PRESS_THRESHOLD) {
-                longPressHandled = true;
-                Serial.println("Long press detected (while holding).");
-                handleLongPress(animationIndex); // Example function
-            }
-        }
-
-        rightButtonLastState = rightButtonCurrentState;
+    rightButtonLastState = rightButtonCurrentState;
 
     if (currentMillis - previousMillis >= interval) {
       previousMillis = currentMillis;
@@ -1769,10 +1761,10 @@ void drawCrossShape(Adafruit_NeoPixel &pixels, int x, int y) {
 
   // Positions relative to center
   int positions[][2] = {
-    {0, -1},  // Top
-    {-1, 0},  // Left
-    {1, 0},   // Right
-    {0, 1}    // Bottom
+    { 0, -1 },  // Top
+    { -1, 0 },  // Left
+    { 1, 0 },   // Right
+    { 0, 1 }    // Bottom
   };
 
   for (int i = 0; i < 4; i++) {
@@ -1804,67 +1796,67 @@ void colorSwirlNeoPixelDemo(Adafruit_NeoPixel &pixels) {
   unsigned long previousMillis = 0;
   const unsigned long interval = 20;
 
-    // Variables for right button press detection
-    bool rightButtonPressed = false;
-    unsigned long pressStartTime = 0;
-    bool longPressHandled = false;
+  // Variables for right button press detection
+  bool rightButtonPressed = false;
+  unsigned long pressStartTime = 0;
+  bool longPressHandled = false;
 
-    bool rightButtonLastState = HIGH; // Assume button not pressed (pull-up resistor)
+  bool rightButtonLastState = HIGH;  // Assume button not pressed (pull-up resistor)
 
-    while (!isLeftButtonPressed() && !animationInterrupted) {
-        Watchdog.reset();
-        unsigned long currentMillis = millis();
+  while (!isLeftButtonPressed() && !animationInterrupted) {
+    Watchdog.reset();
+    unsigned long currentMillis = millis();
 
-        // Check for both buttons pressed
-        if (isBothButtonsPressed()) {
-            handleBothButtonsPressed();
+    // Check for both buttons pressed
+    if (isBothButtonsPressed()) {
+      handleBothButtonsPressed();
+    }
+
+    // Read the current state of the right button
+    bool rightButtonCurrentState = digitalRead(RIGHT_BUTTON_PIN);
+
+    if (rightButtonLastState == HIGH && rightButtonCurrentState == LOW) {
+      // Button was just pressed
+      delay(50);  // Debounce delay
+      rightButtonCurrentState = digitalRead(RIGHT_BUTTON_PIN);
+      if (rightButtonCurrentState == LOW) {
+        rightButtonPressed = true;
+        pressStartTime = millis();
+        longPressHandled = false;
+        Serial.println("Right button pressed.");
+      }
+    }
+
+    if (rightButtonLastState == LOW && rightButtonCurrentState == HIGH) {
+      // Button was just released
+      if (rightButtonPressed) {
+        unsigned long pressDuration = millis() - pressStartTime;
+        if (pressDuration < SHORT_PRESS_THRESHOLD) {
+          // Short press detected
+          Serial.println("Short press detected. No change for this animation");
+          // selectedColorIndex = (selectedColorIndex + 1) % numColors;
+          // Serial.print("Color changed to index ");
+          // Serial.println(selectedColorIndex);
+        } else if (pressDuration >= LONG_PRESS_THRESHOLD && !longPressHandled) {
+          // Long press detected upon release, only if not handled during holding
+          Serial.println("Long press detected.");
+          handleLongPress(animationIndex);  // Example function
         }
+        rightButtonPressed = false;
+      }
+    }
 
-        // Read the current state of the right button
-        bool rightButtonCurrentState = digitalRead(RIGHT_BUTTON_PIN);
+    // Handle long press if button is still pressed and threshold exceeded
+    if (rightButtonPressed && !longPressHandled) {
+      unsigned long pressDuration = millis() - pressStartTime;
+      if (pressDuration >= LONG_PRESS_THRESHOLD) {
+        longPressHandled = true;
+        Serial.println("Long press detected (while holding).");
+        handleLongPress(animationIndex);  // Example function
+      }
+    }
 
-        if (rightButtonLastState == HIGH && rightButtonCurrentState == LOW) {
-            // Button was just pressed
-            delay(50); // Debounce delay
-            rightButtonCurrentState = digitalRead(RIGHT_BUTTON_PIN);
-            if (rightButtonCurrentState == LOW) {
-                rightButtonPressed = true;
-                pressStartTime = millis();
-                longPressHandled = false;
-                Serial.println("Right button pressed.");
-            }
-        }
-
-        if (rightButtonLastState == LOW && rightButtonCurrentState == HIGH) {
-            // Button was just released
-            if (rightButtonPressed) {
-                unsigned long pressDuration = millis() - pressStartTime;
-                if (pressDuration < SHORT_PRESS_THRESHOLD) {
-                    // Short press detected
-                    Serial.println("Short press detected. No change for this animation");
-                   // selectedColorIndex = (selectedColorIndex + 1) % numColors;
-                   // Serial.print("Color changed to index ");
-                    // Serial.println(selectedColorIndex);
-                } else if (pressDuration >= LONG_PRESS_THRESHOLD && !longPressHandled) {
-                    // Long press detected upon release, only if not handled during holding
-                    Serial.println("Long press detected.");
-                    handleLongPress(animationIndex); // Example function
-                }
-                rightButtonPressed = false;
-            }
-        }
-
-        // Handle long press if button is still pressed and threshold exceeded
-        if (rightButtonPressed && !longPressHandled) {
-            unsigned long pressDuration = millis() - pressStartTime;
-            if (pressDuration >= LONG_PRESS_THRESHOLD) {
-                longPressHandled = true;
-                Serial.println("Long press detected (while holding).");
-                handleLongPress(animationIndex); // Example function
-            }
-        }
-
-        rightButtonLastState = rightButtonCurrentState;
+    rightButtonLastState = rightButtonCurrentState;
 
     if (currentMillis - previousMillis >= interval) {
       previousMillis = currentMillis;
@@ -1945,7 +1937,7 @@ void testNeoPixels(Adafruit_NeoPixel &pixels) {
   Serial.println("NeoPixels set to white. Press LEFT button to proceed.");
   waitForButtonPress(isLeftButtonPressed);
 
-  setAllNeoPixelsColor(pixels, pixels.Color(0, 0, 0));    // Turn off
+  setAllNeoPixelsColor(pixels, pixels.Color(0, 0, 0));  // Turn off
   Serial.println("NeoPixels turned off.");
 }
 
@@ -1957,7 +1949,7 @@ void recordAudio() {
 
     // Read DECIMATION bits and perform convolution
     for (uint8_t samplenum = 0; samplenum < (DECIMATION / 16); samplenum++) {
-      uint16_t sample = pdm.read() & 0xFFFF; // Read 16 bits
+      uint16_t sample = pdm.read() & 0xFFFF;  // Read 16 bits
 
       // Process each bit
       for (int b = 0; b < 16; b++) {
@@ -1973,7 +1965,7 @@ void recordAudio() {
     runningsum /= DECIMATION;
 
     // Store the PCM sample
-    pcm_buffer[i] = (int16_t)runningsum - 32768; // Center around zero
+    pcm_buffer[i] = (int16_t)runningsum - 32768;  // Center around zero
   }
 }
 
@@ -1981,14 +1973,14 @@ bool recordAudioWithButtonCheck() {
   for (int i = 0; i < FFT_SIZE; i++) {
     // Check for left button press
     if (isLeftButtonPressed()) {
-      return false; // Exit recording early
+      return false;  // Exit recording early
     }
     uint32_t runningsum = 0;
     const uint16_t *sinc_ptr = sincfilter;
 
     // Read DECIMATION bits and perform convolution
     for (uint8_t samplenum = 0; samplenum < (DECIMATION / 16); samplenum++) {
-      uint16_t sample = pdm.read() & 0xFFFF; // Read 16 bits
+      uint16_t sample = pdm.read() & 0xFFFF;  // Read 16 bits
 
       // Process each bit
       for (int b = 0; b < 16; b++) {
@@ -2004,7 +1996,7 @@ bool recordAudioWithButtonCheck() {
     runningsum /= DECIMATION;
 
     // Store the PCM sample
-    pcm_buffer[i] = (int16_t)runningsum - 32768; // Center around zero
+    pcm_buffer[i] = (int16_t)runningsum - 32768;  // Center around zero
   }
   return true;
 }
@@ -2016,11 +2008,11 @@ void processFFT() {
   ZeroFFT(pcm_buffer, FFT_SIZE);
 
   // Compute magnitude spectrum (log scale)
-  for (int i = 1; i < SPECTRUM_SIZE - 1; i++) { // Start from 1 to exclude DC component
+  for (int i = 1; i < SPECTRUM_SIZE - 1; i++) {  // Start from 1 to exclude DC component
     float real = pcm_buffer[i * 2];
     float imag = pcm_buffer[i * 2 + 1];
     float mag = sqrt(real * real + imag * imag);
-    spectrum[i] = log(mag + 1e-7); // Add a small value to prevent log(0)
+    spectrum[i] = log(mag + 1e-7);  // Add a small value to prevent log(0)
   }
 
   // Find min and max values in the spectrum
@@ -2035,17 +2027,17 @@ void processFFT() {
   if (max_curr > max_all) {
     max_all = max_curr;
   } else {
-    max_all = max_all * 0.95 + max_curr * 0.05; // Smoother decay
+    max_all = max_all * 0.95 + max_curr * 0.05;  // Smoother decay
   }
 
   // Optionally, lower the min_curr threshold to allow for more sensitivity
-  min_curr = 0.0; // Removed the previous threshold of 3.0
+  min_curr = 0.0;  // Removed the previous threshold of 3.0
 
   // Normalize and scale the spectrum data
   for (int i = 1; i < SPECTRUM_SIZE - 1; i++) {
     spectrum[i] = (spectrum[i] - min_curr) * (15.0 / (max_all - min_curr));
     if (spectrum[i] < 0) spectrum[i] = 0;
-    if (spectrum[i] > 15.0) spectrum[i] = 15.0; // Cap at 15
+    if (spectrum[i] > 15.0) spectrum[i] = 15.0;  // Cap at 15
   }
 }
 
@@ -2055,7 +2047,7 @@ float calculateVolume() {
   for (int i = 1; i < SPECTRUM_SIZE - 1; i++) {
     volume += spectrum[i];
   }
-  volume /= (SPECTRUM_SIZE - 2); // Average magnitude
+  volume /= (SPECTRUM_SIZE - 2);  // Average magnitude
   return volume;
 }
 
@@ -2089,7 +2081,7 @@ void displayRainbow(Adafruit_NeoPixel &pixels) {
   // Map BPM to hue increment: slower BPM -> lower increment, faster BPM -> higher increment
   // Assuming BPM ranges from 60 to 180
   float bpmClamped = constrain(currentBPM, MIN_BPM, MAX_BPM);
-  float bpmRatio = (bpmClamped - MIN_BPM) / (MAX_BPM - MIN_BPM); // 0.0 to 1.0
+  float bpmRatio = (bpmClamped - MIN_BPM) / (MAX_BPM - MIN_BPM);  // 0.0 to 1.0
   uint16_t hueIncrement = MIN_HUE_INCREMENT + bpmRatio * (MAX_HUE_INCREMENT - MIN_HUE_INCREMENT);
 
   // Increment the global hue based on the calculated hue increment
@@ -2105,7 +2097,7 @@ void displayRainbow(Adafruit_NeoPixel &pixels) {
 
     // Define saturation and value based on brightnessFactor
     uint8_t saturation = 255;
-    uint8_t value = brightnessFactor * 255; // Scale brightness
+    uint8_t value = brightnessFactor * 255;  // Scale brightness
 
     // Convert HSV to RGB
     uint32_t color = pixels.ColorHSV(hue, saturation, value);
@@ -2122,375 +2114,144 @@ void displayRainbow(Adafruit_NeoPixel &pixels) {
 void solidColorMusic(Adafruit_NeoPixel &pixels) {
   Serial.println("Sound Effect NeoPixel Demo. Press LEFT button to exit.");
 
-  int selectedColorIndex = 0; // Start with the first color
-
-//  bool rightButtonLastState = HIGH; // Assume button not pressed (pull-up resistor)
-
-  int fadeColorIndex = random(numColors); // Random starting color for fade
+  int selectedColorIndex = 0;
+  int fadeColorIndex = random(numColors);
   bool fadingUp = true;
   uint8_t fadeBrightness = 0;
-  bool fadeActive = true; // Flag to track if fade is active
+  bool fadeActive = true;
 
-    // Variables for right button press detection
-    bool rightButtonPressed = false;
-    unsigned long pressStartTime = 0;
-    bool longPressHandled = false;
+  bool rightButtonPressed = false;
+  unsigned long pressStartTime = 0;
+  bool longPressHandled = false;
+  bool rightButtonLastState = HIGH;
 
-    bool rightButtonLastState = HIGH; // Assume button not pressed (pull-up resistor)
+  while (!isLeftButtonPressed() && !animationInterrupted) {
+    Watchdog.reset();
 
-    while (!isLeftButtonPressed() && !animationInterrupted) {
-      Watchdog.reset();
-      unsigned long currentMillis = millis();
-
-      // Check for both buttons pressed
-      if (isBothButtonsPressed()) {
-        handleBothButtonsPressed();
-      }
-
-      // Read the current state of the right button
-      bool rightButtonCurrentState = digitalRead(RIGHT_BUTTON_PIN);
-
-      if (rightButtonLastState == HIGH && rightButtonCurrentState == LOW) {
-        // Button was just pressed
-        delay(50); // Debounce delay
-        rightButtonCurrentState = digitalRead(RIGHT_BUTTON_PIN);
-        if (rightButtonCurrentState == LOW) {
-          rightButtonPressed = true;
-          pressStartTime = millis();
-          longPressHandled = false;
-          Serial.println("Right button pressed.");
-        }
-      }
-
-      if (rightButtonLastState == LOW && rightButtonCurrentState == HIGH) {
-        // Button was just released
-        if (rightButtonPressed) {
-          unsigned long pressDuration = millis() - pressStartTime;
-          if (pressDuration < SHORT_PRESS_THRESHOLD) {
-            // Short press detected
-            Serial.println("Short press detected. No change for this animation");
-             selectedColorIndex = (selectedColorIndex + 1) % numColors;
-             Serial.print("Color changed to index ");
-             Serial.println(selectedColorIndex);
-          } else if (pressDuration >= LONG_PRESS_THRESHOLD && !longPressHandled) {
-            // Long press detected upon release, only if not handled during holding
-            Serial.println("Long press detected.");
-            handleLongPress(animationIndex); // Example function
-          }
-          rightButtonPressed = false;
-        }
-      }
-
-      // Handle long press if button is still pressed and threshold exceeded
-      if (rightButtonPressed && !longPressHandled) {
-        unsigned long pressDuration = millis() - pressStartTime;
-        if (pressDuration >= LONG_PRESS_THRESHOLD) {
-          longPressHandled = true;
-          Serial.println("Long press detected (while holding).");
-          handleLongPress(animationIndex); // Example function
-        }
-      }
-
-      rightButtonLastState = rightButtonCurrentState;
-
-    if (fadeActive) {
-      // Record audio data with button check
-      if (!recordAudioWithButtonCheck()) {
-        break; // Exit if left button was pressed during recording
-      }
-
-      // Perform FFT on the recorded audio
-      processFFT();
-
-      // Calculate the overall volume from the spectrum
-      float volume = calculateVolume();
-
-      if (volume < VOLUME_THRESHOLD) {
-        // Fade up and down with random colors
-        if (fadingUp) {
-          fadeBrightness += 5;
-          if (fadeBrightness >= 255) {
-            fadeBrightness = 255;
-            fadingUp = false;
-          }
-        } else {
-          fadeBrightness -= 5;
-          if (fadeBrightness <= 0) {
-            fadeBrightness = 0;
-            fadingUp = true;
-            fadeColorIndex = random(numColors); // Change to a new random color
-          }
-        }
-
-        uint8_t red = colorArray[fadeColorIndex][0];
-        uint8_t green = colorArray[fadeColorIndex][1];
-        uint8_t blue = colorArray[fadeColorIndex][2];
-
-        // Apply fade brightness
-        uint8_t adjustedRed = (uint8_t)((red * fadeBrightness) / 255);
-        uint8_t adjustedGreen = (uint8_t)((green * fadeBrightness) / 255);
-        uint8_t adjustedBlue = (uint8_t)((blue * fadeBrightness) / 255);
-
-        // Set color to all pixels
-        setAllNeoPixelsColor(pixels, pixels.Color(adjustedRed, adjustedGreen, adjustedBlue));
-
-        // Small delay to control fade speed
-        delay(20);
-      } else {
-        // Volume threshold met, stop fading
-        fadeActive = false;
-
-        // Scale brightnessFactor based on volume above threshold
-        brightnessFactor = constrain((volume - VOLUME_THRESHOLD) / (15.0 - VOLUME_THRESHOLD), 0.0, 1.0);
-
-        // Get the selected color
-        uint8_t red = colorArray[selectedColorIndex][0];
-        uint8_t green = colorArray[selectedColorIndex][1];
-        uint8_t blue = colorArray[selectedColorIndex][2];
-        uint32_t selectedColor = pixels.Color(red, green, blue);
-
-        // Display the solid color animation with brightness based on volume
-        displaySolidColor(pixels, selectedColor);
-      }
-    } else {
-      // Fade is inactive, proceed directly to displaySolidColor
-      // Record audio data with button check
-      if (!recordAudioWithButtonCheck()) {
-        break; // Exit if left button was pressed during recording
-      }
-
-      // Perform FFT on the recorded audio
-      processFFT();
-
-      // Calculate the overall volume from the spectrum
-      float volume = calculateVolume();
-
-      // Scale brightnessFactor based on volume
-      brightnessFactor = constrain((volume - VOLUME_THRESHOLD) / (15.0 - VOLUME_THRESHOLD), 0.0, 1.0);
-
-      // Get the selected color
-      uint8_t red = colorArray[selectedColorIndex][0];
-      uint8_t green = colorArray[selectedColorIndex][1];
-      uint8_t blue = colorArray[selectedColorIndex][2];
-      uint32_t selectedColor = pixels.Color(red, green, blue);
-
-      // Display the solid color animation with brightness based on volume
-      displaySolidColor(pixels, selectedColor);
-
-      // Small delay to allow for button responsiveness
-      delay(1);
+    // Check for buttons
+    if (isBothButtonsPressed()) {
+      handleBothButtonsPressed();
     }
+
+    // Read audio & process FFT
+    if (!recordAudioWithButtonCheck()) break;
+    processFFT();
+    float volume = calculateVolume();
+
+    if (volume < VOLUME_THRESHOLD) {
+      fadeActive = true;
+      if (fadingUp) {
+        fadeBrightness = min(fadeBrightness + 5, 255);
+        if (fadeBrightness >= 255) fadingUp = false;
+      } else {
+        fadeBrightness = max(fadeBrightness - 5, 0);
+        if (fadeBrightness == 0) {
+          fadingUp = true;
+          fadeColorIndex = random(numColors);
+        }
+      }
+
+      uint8_t red = (colorArray[fadeColorIndex][0] * fadeBrightness) / 255;
+      uint8_t green = (colorArray[fadeColorIndex][1] * fadeBrightness) / 255;
+      uint8_t blue = (colorArray[fadeColorIndex][2] * fadeBrightness) / 255;
+      setAllNeoPixelsColor(pixels, pixels.Color(red, green, blue));
+    } else {
+      fadeActive = false;
+      float brightnessFactor = constrain((volume - VOLUME_THRESHOLD) / (15.0 - VOLUME_THRESHOLD), 0.0, 1.0);
+      uint8_t red = colorArray[selectedColorIndex][0] * brightnessFactor;
+      uint8_t green = colorArray[selectedColorIndex][1] * brightnessFactor;
+      uint8_t blue = colorArray[selectedColorIndex][2] * brightnessFactor;
+      displaySolidColor(pixels, pixels.Color(red, green, blue));
+    }
+    delay(20);
   }
 
-  // Turn off all pixels after exiting
   setAllNeoPixelsColor(pixels, 0);
+  fadeActive = true;  // Ensure fade resets for next use
   delay(50);
-
-  // Reset fadeActive for the next time the function is called
-  fadeActive = true;
 }
-
-
 
 void rainbowBeatMusic(Adafruit_NeoPixel &pixels) {
   Serial.println("Rainbow Beat NeoPixel Demo. Press LEFT button to exit.");
 
-  int fadeColorIndex = random(numColors); // Random starting color for fade
+  int fadeColorIndex = random(numColors);
   bool fadingUp = true;
   uint8_t fadeBrightness = 0;
-  bool fadeActive = true; // Flag to track if fade is active
+  bool fadeActive = true;
 
-    // Variables for right button press detection
-    bool rightButtonPressed = false;
-    unsigned long pressStartTime = 0;
-    bool longPressHandled = false;
+  while (!isLeftButtonPressed() && !animationInterrupted) {
+    Watchdog.reset();
 
-    bool rightButtonLastState = HIGH; // Assume button not pressed (pull-up resistor)
+    // Check for button presses
+    if (isBothButtonsPressed()) {
+      handleBothButtonsPressed();
+    }
 
-    while (!isLeftButtonPressed() && !animationInterrupted) {
-      Watchdog.reset();
-      unsigned long currentMillis = millis();
+    // Read audio & process FFT
+    if (!recordAudioWithButtonCheck()) break;
+    processFFT();
+    float volume = calculateVolume();
 
-      // Check for both buttons pressed
-      if (isBothButtonsPressed()) {
-        handleBothButtonsPressed();
-      }
-
-      // Read the current state of the right button
-      bool rightButtonCurrentState = digitalRead(RIGHT_BUTTON_PIN);
-
-      if (rightButtonLastState == HIGH && rightButtonCurrentState == LOW) {
-        // Button was just pressed
-        delay(50); // Debounce delay
-        rightButtonCurrentState = digitalRead(RIGHT_BUTTON_PIN);
-        if (rightButtonCurrentState == LOW) {
-          rightButtonPressed = true;
-          pressStartTime = millis();
-          longPressHandled = false;
-          Serial.println("Right button pressed.");
-        }
-      }
-
-      if (rightButtonLastState == LOW && rightButtonCurrentState == HIGH) {
-        // Button was just released
-        if (rightButtonPressed) {
-          unsigned long pressDuration = millis() - pressStartTime;
-          if (pressDuration < SHORT_PRESS_THRESHOLD) {
-            // Short press detected
-            Serial.println("Short press detected. No change for this animation");
-             // selectedColorIndex = (selectedColorIndex + 1) % numColors;
-             // Serial.print("Color changed to index ");
-            // Serial.println(selectedColorIndex);
-          } else if (pressDuration >= LONG_PRESS_THRESHOLD && !longPressHandled) {
-            // Long press detected upon release, only if not handled during holding
-            Serial.println("Long press detected.");
-            handleLongPress(animationIndex); // Example function
-          }
-          rightButtonPressed = false;
-        }
-      }
-
-      // Handle long press if button is still pressed and threshold exceeded
-      if (rightButtonPressed && !longPressHandled) {
-        unsigned long pressDuration = millis() - pressStartTime;
-        if (pressDuration >= LONG_PRESS_THRESHOLD) {
-          longPressHandled = true;
-          Serial.println("Long press detected (while holding).");
-          handleLongPress(animationIndex); // Example function
-        }
-      }
-
-      rightButtonLastState = rightButtonCurrentState;
-
-    if (fadeActive) {
-      // Record audio data with button check
-      if (!recordAudioWithButtonCheck()) {
-        break; // Exit if left button was pressed during recording
-      }
-
-      // Perform FFT on the recorded audio
-      processFFT();
-
-      // Calculate the overall volume from the spectrum
-      float volume = calculateVolume();
-
-      if (volume < VOLUME_THRESHOLD) {
-        // Fade up and down with random colors
-        if (fadingUp) {
-          fadeBrightness += 5;
-          if (fadeBrightness >= 255) {
-            fadeBrightness = 255;
-            fadingUp = false;
-          }
-        } else {
-          fadeBrightness -= 5;
-          if (fadeBrightness <= 0) {
-            fadeBrightness = 0;
-            fadingUp = true;
-            fadeColorIndex = random(numColors); // Change to a new random color
-          }
-        }
-
-        uint8_t red = colorArray[fadeColorIndex][0];
-        uint8_t green = colorArray[fadeColorIndex][1];
-        uint8_t blue = colorArray[fadeColorIndex][2];
-
-        // Apply fade brightness
-        uint8_t adjustedRed = (uint8_t)((red * fadeBrightness) / 255);
-        uint8_t adjustedGreen = (uint8_t)((green * fadeBrightness) / 255);
-        uint8_t adjustedBlue = (uint8_t)((blue * fadeBrightness) / 255);
-
-        // Set color to all pixels
-        setAllNeoPixelsColor(pixels, pixels.Color(adjustedRed, adjustedGreen, adjustedBlue));
-
-        // Small delay to control fade speed
-        delay(20);
+    if (volume < VOLUME_THRESHOLD) {
+      fadeActive = true;
+      if (fadingUp) {
+        fadeBrightness = min(fadeBrightness + 5, 255);
+        if (fadeBrightness >= 255) fadingUp = false;
       } else {
-        // Volume threshold met, stop fading
-        fadeActive = false;
-
-        // Scale brightnessFactor based on volume above threshold
-        brightnessFactor = constrain((volume - VOLUME_THRESHOLD) / (15.0 - VOLUME_THRESHOLD), 0.0, 1.0);
-
-        // Detect beat and update BPM
-        if (volume > VOLUME_THRESHOLD * 1.5) { // Detect peaks above 1.5 times the threshold
-          unsigned long currentTime = millis();
-          if (lastBeatTime != 0) {
-            unsigned long timeSinceLastBeat = currentTime - lastBeatTime;
-            float bpm = 60000.0 / timeSinceLastBeat;
-            if (bpm >= MIN_BPM && bpm <= MAX_BPM) { // Validate BPM range
-              currentBPM = BPM_SMOOTHING * currentBPM + (1.0 - BPM_SMOOTHING) * bpm;
-            }
-          }
-          lastBeatTime = millis();
+        fadeBrightness = max(fadeBrightness - 5, 0);
+        if (fadeBrightness == 0) {
+          fadingUp = true;
+          fadeColorIndex = random(numColors);
         }
-
-        // Display the rainbow animation with brightness and speed based on volume and BPM
-        displayRainbow(pixels);
       }
+
+      uint8_t red = (colorArray[fadeColorIndex][0] * fadeBrightness) / 255;
+      uint8_t green = (colorArray[fadeColorIndex][1] * fadeBrightness) / 255;
+      uint8_t blue = (colorArray[fadeColorIndex][2] * fadeBrightness) / 255;
+      setAllNeoPixelsColor(pixels, pixels.Color(red, green, blue));
     } else {
-      // Fade is inactive, proceed directly to displayRainbow
-      // Record audio data with button check
-      if (!recordAudioWithButtonCheck()) {
-        break; // Exit if left button was pressed during recording
-      }
+      fadeActive = false;
+      float brightnessFactor = constrain((volume - VOLUME_THRESHOLD) / (15.0 - VOLUME_THRESHOLD), 0.0, 1.0);
 
-      // Perform FFT on the recorded audio
-      processFFT();
-
-      // Calculate the overall volume from the spectrum
-      float volume = calculateVolume();
-
-      // Scale brightnessFactor based on volume above threshold
-      brightnessFactor = constrain((volume - VOLUME_THRESHOLD) / (15.0 - VOLUME_THRESHOLD), 0.0, 1.0);
-
-      // Detect beat and update BPM
-      if (volume > VOLUME_THRESHOLD * 1.5) { // Detect peaks above 1.5 times the threshold
+      if (volume > VOLUME_THRESHOLD * 1.5) {
         unsigned long currentTime = millis();
         if (lastBeatTime != 0) {
           unsigned long timeSinceLastBeat = currentTime - lastBeatTime;
           float bpm = 60000.0 / timeSinceLastBeat;
-          if (bpm >= MIN_BPM && bpm <= MAX_BPM) { // Validate BPM range
+          if (bpm >= MIN_BPM && bpm <= MAX_BPM) {
             currentBPM = BPM_SMOOTHING * currentBPM + (1.0 - BPM_SMOOTHING) * bpm;
           }
         }
         lastBeatTime = millis();
       }
 
-      // Display the rainbow animation with brightness and speed based on volume and BPM
       displayRainbow(pixels);
-
-      // Small delay to allow for button responsiveness
-      delay(1);
     }
+    delay(20);
   }
 
-  // Turn off all pixels after exiting
   setAllNeoPixelsColor(pixels, 0);
-  delay(50);
-
-  // Reset fadeActive for the next time the function is called
   fadeActive = true;
+  delay(50);
 }
-
 
 
 void handleBothButtonsPressed() {
   if (!bothButtonsPressed) {
     Watchdog.reset();
     bothButtonsPressed = true;
-    previousAnimation = currentAnimation; // Store the current animation to resume later
-    currentAnimation = NULL; // Stop current animation
+    previousAnimation = currentAnimation;  // Store the current animation to resume later
+    currentAnimation = NULL;               // Stop current animation
     Serial.println("BOTH BUTTONS PRESSED!");
 
     // Initialize random seed
     randomSeed(analogRead(A3));  // Use an unconnected analog pin for randomness
-    
+
     // Light up all discrete LEDs and turn all NeoPixels green
     turnOnAllLEDs();
-    setAllNeoPixelsColor(pixels, pixels.Color(255, 255, 255)); // White color
+    setAllNeoPixelsColor(pixels, pixels.Color(255, 255, 255));  // White color
     pixels.show();
-    
+
     // Call the NFCWriter functions
     nfcWriter.wipeEEPROM();
     nfcWriter.writeCCFile();
@@ -2500,12 +2261,13 @@ void handleBothButtonsPressed() {
     Watchdog.reset();
 
     // Wait for 2 seconds
-    //delay(2000);
+    delay(2000);
 
     // Turn off discrete LEDs and resume previous animation
     turnOffAllLEDs();
-    setAllNeoPixelsColor(pixels, 0); // Turn off NeoPixels
+    setAllNeoPixelsColor(pixels, 0);  // Turn off NeoPixels
     pixels.show();
+
     currentAnimation = previousAnimation;
     bothButtonsPressed = false;
   }
@@ -2519,77 +2281,77 @@ void accelerometerNeoPixelDemoSmoother(Adafruit_NeoPixel &pixels) {
   const uint8_t gridHeight = 5;
 
   // Smoothing factor for low-pass filter
-  const float alpha = 0.2; // Adjust between 0 (no new data) and 1 (no filtering)
+  const float alpha = 0.2;  // Adjust between 0 (no new data) and 1 (no filtering)
 
   // Variables to hold smoothed accelerometer values
   float filteredX = 0;
   float filteredY = 0;
   float filteredZ = 0;
 
-  int selectedColorIndex = 0; // Start with the first color
- // bool rightButtonLastState = HIGH; // Assume button not pressed (pull-up resistor)
+  int selectedColorIndex = 0;  // Start with the first color
+                               // bool rightButtonLastState = HIGH; // Assume button not pressed (pull-up resistor)
 
-    // Variables for right button press detection
-    bool rightButtonPressed = false;
-    unsigned long pressStartTime = 0;
-    bool longPressHandled = false;
+  // Variables for right button press detection
+  bool rightButtonPressed = false;
+  unsigned long pressStartTime = 0;
+  bool longPressHandled = false;
 
-    bool rightButtonLastState = HIGH; // Assume button not pressed (pull-up resistor)
+  bool rightButtonLastState = HIGH;  // Assume button not pressed (pull-up resistor)
 
-    while (!isLeftButtonPressed() && !animationInterrupted) {
-      Watchdog.reset();
-      unsigned long currentMillis = millis();
+  while (!isLeftButtonPressed() && !animationInterrupted) {
+    Watchdog.reset();
+    unsigned long currentMillis = millis();
 
-      // Check for both buttons pressed
-      if (isBothButtonsPressed()) {
-        handleBothButtonsPressed();
+    // Check for both buttons pressed
+    if (isBothButtonsPressed()) {
+      handleBothButtonsPressed();
+    }
+
+    // Read the current state of the right button
+    bool rightButtonCurrentState = digitalRead(RIGHT_BUTTON_PIN);
+
+    if (rightButtonLastState == HIGH && rightButtonCurrentState == LOW) {
+      // Button was just pressed
+      delay(50);  // Debounce delay
+      rightButtonCurrentState = digitalRead(RIGHT_BUTTON_PIN);
+      if (rightButtonCurrentState == LOW) {
+        rightButtonPressed = true;
+        pressStartTime = millis();
+        longPressHandled = false;
+        Serial.println("Right button pressed.");
       }
+    }
 
-      // Read the current state of the right button
-      bool rightButtonCurrentState = digitalRead(RIGHT_BUTTON_PIN);
-
-      if (rightButtonLastState == HIGH && rightButtonCurrentState == LOW) {
-        // Button was just pressed
-        delay(50); // Debounce delay
-        rightButtonCurrentState = digitalRead(RIGHT_BUTTON_PIN);
-        if (rightButtonCurrentState == LOW) {
-          rightButtonPressed = true;
-          pressStartTime = millis();
-          longPressHandled = false;
-          Serial.println("Right button pressed.");
-        }
-      }
-
-      if (rightButtonLastState == LOW && rightButtonCurrentState == HIGH) {
-        // Button was just released
-        if (rightButtonPressed) {
-          unsigned long pressDuration = millis() - pressStartTime;
-          if (pressDuration < SHORT_PRESS_THRESHOLD) {
-            // Short press detected
-            Serial.println("Short press detected. No change for this animation");
-             selectedColorIndex = (selectedColorIndex + 1) % numColors;
-             Serial.print("Color changed to index ");
-             Serial.println(selectedColorIndex);
-          } else if (pressDuration >= LONG_PRESS_THRESHOLD && !longPressHandled) {
-            // Long press detected upon release, only if not handled during holding
-            Serial.println("Long press detected.");
-            handleLongPress(animationIndex); // Example function
-          }
-          rightButtonPressed = false;
-        }
-      }
-
-      // Handle long press if button is still pressed and threshold exceeded
-      if (rightButtonPressed && !longPressHandled) {
+    if (rightButtonLastState == LOW && rightButtonCurrentState == HIGH) {
+      // Button was just released
+      if (rightButtonPressed) {
         unsigned long pressDuration = millis() - pressStartTime;
-        if (pressDuration >= LONG_PRESS_THRESHOLD) {
-          longPressHandled = true;
-          Serial.println("Long press detected (while holding).");
-          handleLongPress(animationIndex); // Example function
+        if (pressDuration < SHORT_PRESS_THRESHOLD) {
+          // Short press detected
+          Serial.println("Short press detected. No change for this animation");
+          selectedColorIndex = (selectedColorIndex + 1) % numColors;
+          Serial.print("Color changed to index ");
+          Serial.println(selectedColorIndex);
+        } else if (pressDuration >= LONG_PRESS_THRESHOLD && !longPressHandled) {
+          // Long press detected upon release, only if not handled during holding
+          Serial.println("Long press detected.");
+          handleLongPress(animationIndex);  // Example function
         }
+        rightButtonPressed = false;
       }
+    }
 
-      rightButtonLastState = rightButtonCurrentState;
+    // Handle long press if button is still pressed and threshold exceeded
+    if (rightButtonPressed && !longPressHandled) {
+      unsigned long pressDuration = millis() - pressStartTime;
+      if (pressDuration >= LONG_PRESS_THRESHOLD) {
+        longPressHandled = true;
+        Serial.println("Long press detected (while holding).");
+        handleLongPress(animationIndex);  // Example function
+      }
+    }
+
+    rightButtonLastState = rightButtonCurrentState;
 
     float x, y, z;
     getAccelerometerValues(lis, x, y, z);
@@ -2601,7 +2363,7 @@ void accelerometerNeoPixelDemoSmoother(Adafruit_NeoPixel &pixels) {
 
     // Map filtered x and y values to grid positions (0 to 4)
     int gridX = map(filteredX * 100, -100, 100, 0, 4);
-    int gridY = map(filteredY * 100, -100, 100, 0, 4); // Inverted Y mapping
+    int gridY = map(filteredY * 100, -100, 100, 0, 4);  // Inverted Y mapping
 
     // Constrain to grid
     gridX = constrain(gridX, 0, 4);
@@ -2631,12 +2393,12 @@ void accelerometerNeoPixelDemoSmoother(Adafruit_NeoPixel &pixels) {
     pixels.show();
 
     // Small delay to allow for button checking
-   // delay(10);
+    // delay(10);
   }
 
   // Turn off all pixels after exiting
   setAllNeoPixelsColor(pixels, pixels.Color(0, 0, 0));
-  delay(50); // Debounce delay
+  delay(50);  // Debounce delay
 }
 
 
@@ -2650,12 +2412,12 @@ void gameOfLifeNeoPixelDemo(Adafruit_NeoPixel &pixels) {
   LIVE_CELL_COLOR = colorList[currentColorIndex];
 
   // Initialize random seed from A3
-  randomSeed(analogRead(A3)); // Use A3 for random seed
+  randomSeed(analogRead(A3));  // Use A3 for random seed
 
   // Initialize grid state
   randomizeGrid();
   displayGrid();
- // printGridToSerial();
+  // printGridToSerial();
 
   // Initialize previous states
   for (int row = 0; row < 5; row++) {
@@ -2666,76 +2428,76 @@ void gameOfLifeNeoPixelDemo(Adafruit_NeoPixel &pixels) {
   }
 
   // Variables for button debouncing
- // bool rightButtonReading;
- // bool rightButtonState = HIGH;       // Debounced button state
- // bool lastRightButtonState = HIGH;   // Previous debounced button state
+  // bool rightButtonReading;
+  // bool rightButtonState = HIGH;       // Debounced button state
+  // bool lastRightButtonState = HIGH;   // Previous debounced button state
 
-  
+
   unsigned long lastDebounceTime = 0;
   const unsigned long debounceDelay = 50;
 
   unsigned long previousMillis = 0;
-  const unsigned long interval = 20; // Update interval for animation
-    // Variables for right button press detection
-    bool rightButtonPressed = false;
-    unsigned long pressStartTime = 0;
-    bool longPressHandled = false;
+  const unsigned long interval = 20;  // Update interval for animation
+  // Variables for right button press detection
+  bool rightButtonPressed = false;
+  unsigned long pressStartTime = 0;
+  bool longPressHandled = false;
 
-    bool rightButtonLastState = HIGH; // Assume button not pressed (pull-up resistor)
+  bool rightButtonLastState = HIGH;  // Assume button not pressed (pull-up resistor)
 
-    while (!isLeftButtonPressed() && !animationInterrupted) {
-      Watchdog.reset();
-      unsigned long currentMillis = millis();
+  while (!isLeftButtonPressed() && !animationInterrupted) {
+    Watchdog.reset();
+    unsigned long currentMillis = millis();
 
-      // Check for both buttons pressed
-      if (isBothButtonsPressed()) {
-        handleBothButtonsPressed();
+    // Check for both buttons pressed
+    if (isBothButtonsPressed()) {
+      handleBothButtonsPressed();
+    }
+
+    // Read the current state of the right button
+    bool rightButtonCurrentState = digitalRead(RIGHT_BUTTON_PIN);
+
+    if (rightButtonLastState == HIGH && rightButtonCurrentState == LOW) {
+      // Button was just pressed
+      delay(50);  // Debounce delay
+      rightButtonCurrentState = digitalRead(RIGHT_BUTTON_PIN);
+      if (rightButtonCurrentState == LOW) {
+        rightButtonPressed = true;
+        pressStartTime = millis();
+        longPressHandled = false;
+        Serial.println("Right button pressed.");
       }
+    }
 
-      // Read the current state of the right button
-      bool rightButtonCurrentState = digitalRead(RIGHT_BUTTON_PIN);
-
-      if (rightButtonLastState == HIGH && rightButtonCurrentState == LOW) {
-        // Button was just pressed
-        delay(50); // Debounce delay
-        rightButtonCurrentState = digitalRead(RIGHT_BUTTON_PIN);
-        if (rightButtonCurrentState == LOW) {
-          rightButtonPressed = true;
-          pressStartTime = millis();
-          longPressHandled = false;
-          Serial.println("Right button pressed.");
-        }
-      }
-
-      if (rightButtonLastState == LOW && rightButtonCurrentState == HIGH) {
-        // Button was just released
-        if (rightButtonPressed) {
-          unsigned long pressDuration = millis() - pressStartTime;
-          if (pressDuration < SHORT_PRESS_THRESHOLD) {
-            // Short press detected
-            Serial.println("Short press detected.");
-              randomizeGrid();
-              displayGrid();
-          } else if (pressDuration >= LONG_PRESS_THRESHOLD && !longPressHandled) {
-            // Long press detected upon release, only if not handled during holding
-            Serial.println("Long press detected.");
-            handleLongPress(animationIndex); // Example function
-          }
-          rightButtonPressed = false;
-        }
-      }
-
-      // Handle long press if button is still pressed and threshold exceeded
-      if (rightButtonPressed && !longPressHandled) {
+    if (rightButtonLastState == LOW && rightButtonCurrentState == HIGH) {
+      // Button was just released
+      if (rightButtonPressed) {
         unsigned long pressDuration = millis() - pressStartTime;
-        if (pressDuration >= LONG_PRESS_THRESHOLD) {
-          longPressHandled = true;
-          Serial.println("Long press detected (while holding).");
-          handleLongPress(animationIndex); // Example function
+        if (pressDuration < SHORT_PRESS_THRESHOLD) {
+          // Short press detected
+          Serial.println("Short press detected.");
+          randomizeGrid();
+          displayGrid();
+        } else if (pressDuration >= LONG_PRESS_THRESHOLD && !longPressHandled) {
+          // Long press detected upon release, only if not handled during holding
+          Serial.println("Long press detected.");
+          handleLongPress(animationIndex);  // Example function
         }
+        rightButtonPressed = false;
       }
+    }
 
-      rightButtonLastState = rightButtonCurrentState;
+    // Handle long press if button is still pressed and threshold exceeded
+    if (rightButtonPressed && !longPressHandled) {
+      unsigned long pressDuration = millis() - pressStartTime;
+      if (pressDuration >= LONG_PRESS_THRESHOLD) {
+        longPressHandled = true;
+        Serial.println("Long press detected (while holding).");
+        handleLongPress(animationIndex);  // Example function
+      }
+    }
+
+    rightButtonLastState = rightButtonCurrentState;
 
     if (currentMillis - lastGenerationTime >= GENERATION_INTERVAL_MS) {
       lastGenerationTime = currentMillis;
@@ -2760,7 +2522,7 @@ void gameOfLifeNeoPixelDemo(Adafruit_NeoPixel &pixels) {
 
       if (allOff) {
         restartSimulation();
-        continue; // Skip further processing after restart
+        continue;  // Skip further processing after restart
       }
 
       // Check if current state is same as previous state
@@ -2768,16 +2530,16 @@ void gameOfLifeNeoPixelDemo(Adafruit_NeoPixel &pixels) {
         stableCounter++;
         if (stableCounter >= STABLE_THRESHOLD) {
           restartSimulation();
-          continue; // Skip further processing after restart
+          continue;  // Skip further processing after restart
         }
       } else {
-        stableCounter = 0; // Reset counter if state changes
+        stableCounter = 0;  // Reset counter if state changes
       }
 
       // Check for oscillation between two states
       if (checkOscillation()) {
         restartSimulation();
-        continue; // Skip further processing after restart
+        continue;  // Skip further processing after restart
       }
 
       // Save current state to previousState and secondPreviousState for next comparison
@@ -2793,7 +2555,7 @@ void gameOfLifeNeoPixelDemo(Adafruit_NeoPixel &pixels) {
 
       // Display and print the updated grid
       displayGrid();
-     // printGridToSerial();
+      // printGridToSerial();
     }
 
     // Small delay to prevent CPU hogging
@@ -2803,7 +2565,7 @@ void gameOfLifeNeoPixelDemo(Adafruit_NeoPixel &pixels) {
   // Turn off all pixels after exiting
   setAllNeoPixelsColor(pixels, 0);
   pixels.show();
-  delay(50); // Debounce delay
+  delay(50);  // Debounce delay
 }
 
 
@@ -2829,24 +2591,24 @@ void copyGridsToCombinedGrid() {
 
 // Initialize the grid with a random pattern
 void randomizeGrid() {
-  clearGrid(); // Start with all cells dead
+  clearGrid();  // Start with all cells dead
 
   for (int row = 0; row < 5; row++) {
     for (int col = 0; col < 10; col++) {
       if (grid[row][col] != -1 && !isEdgeCell(row, col)) {
-        currentState[row][col] = random(0, 2); // Randomly set to true (live) or false (dead)
+        currentState[row][col] = random(0, 2);  // Randomly set to true (live) or false (dead)
       } else {
-        currentState[row][col] = false; // Edges are dead
+        currentState[row][col] = false;  // Edges are dead
       }
     }
   }
 
- // Serial.println("Grid randomized.");
+  // Serial.println("Grid randomized.");
 }
 
 // Initialize the grid with a predefined pattern (e.g., Glider)
 void setPredefinedPattern() {
-  clearGrid(); // Start with all cells dead
+  clearGrid();  // Start with all cells dead
 
   // Example: Glider pattern
   /*
@@ -2857,8 +2619,8 @@ void setPredefinedPattern() {
 
   // Coordinates for the glider in the grid
   // Assuming grid[5][10], placing glider somewhere not on the edge
-  int baseRow = 1; // Starting at row 1
-  int baseCol = 3; // Starting at column 3 (left grid)
+  int baseRow = 1;  // Starting at row 1
+  int baseCol = 3;  // Starting at column 3 (left grid)
 
   currentState[baseRow][baseCol + 0] = false;
   currentState[baseRow][baseCol + 1] = true;
@@ -2872,7 +2634,7 @@ void setPredefinedPattern() {
   currentState[baseRow + 2][baseCol + 1] = true;
   currentState[baseRow + 2][baseCol + 2] = true;
 
- // Serial.println("Predefined glider pattern set.");
+  // Serial.println("Predefined glider pattern set.");
 }
 
 // Clear the grid by setting all cells to dead
@@ -2887,7 +2649,7 @@ void clearGrid() {
   }
   stableCounter = 0;
   oscillationCounter = 0;
- // Serial.println("Grid cleared.");
+  // Serial.println("Grid cleared.");
 }
 
 // Update the grid to the next generation
@@ -2899,7 +2661,7 @@ void updateGrid() {
         if (currentState[row][col]) {
           // Cell is alive
           if (liveNeighbors < 2 || liveNeighbors > 3) {
-            nextState[row][col] = false; // Cell dies
+            nextState[row][col] = false;  // Cell dies
           } else {
             nextState[row][col] = true;  // Cell lives
           }
@@ -2908,11 +2670,11 @@ void updateGrid() {
           if (liveNeighbors == 3) {
             nextState[row][col] = true;  // Cell becomes alive
           } else {
-            nextState[row][col] = false; // Cell remains dead
+            nextState[row][col] = false;  // Cell remains dead
           }
         }
       } else {
-        nextState[row][col] = false; // No cell at this position
+        nextState[row][col] = false;  // No cell at this position
       }
     }
   }
@@ -2924,7 +2686,7 @@ void updateGrid() {
     }
   }
 
- // Serial.println("Grid updated to next generation.");
+  // Serial.println("Grid updated to next generation.");
 }
 
 // Count the number of live neighbors for a cell
@@ -2936,7 +2698,7 @@ int countLiveNeighbors(int row, int col) {
     for (int j = -1; j <= 1; j++) {
       int neighborCol = col + j;
       if (neighborCol < 0 || neighborCol >= 10) continue;
-      if (i == 0 && j == 0) continue; // Skip the cell itself
+      if (i == 0 && j == 0) continue;  // Skip the cell itself
       if (currentState[neighborRow][neighborCol]) {
         liveNeighbors++;
       }
@@ -2971,7 +2733,7 @@ void printGridToSerial() {
       if (grid[row][col] != -1) {
         Serial.print(currentState[row][col] ? "O" : ".");
       } else {
-        Serial.print(" "); // Represent invalid positions as space
+        Serial.print(" ");  // Represent invalid positions as space
       }
     }
     Serial.println();
@@ -3000,9 +2762,9 @@ bool isEdgeCell(int row, int col) {
 
 // Compare two grids for equality
 bool areGridsEqual(bool grid1[5][10], bool grid2[5][10]) {
-  for(int row=0; row<5; row++) {
-    for(int col=0; col<10; col++) {
-      if(grid1[row][col] != grid2[row][col]){
+  for (int row = 0; row < 5; row++) {
+    for (int col = 0; col < 10; col++) {
+      if (grid1[row][col] != grid2[row][col]) {
         return false;
       }
     }
@@ -3012,50 +2774,49 @@ bool areGridsEqual(bool grid1[5][10], bool grid2[5][10]) {
 
 // Check for oscillation between two states
 bool checkOscillation() {
-  if(areGridsEqual(currentState, secondPreviousState)){
+  if (areGridsEqual(currentState, secondPreviousState)) {
     oscillationCounter++;
-  //  Serial.print("Oscillation count: ");
-  //  Serial.println(oscillationCounter);
-    if(oscillationCounter > OSCILLATION_THRESHOLD){
+    //  Serial.print("Oscillation count: ");
+    //  Serial.println(oscillationCounter);
+    if (oscillationCounter > OSCILLATION_THRESHOLD) {
       return true;
     }
-  }
-  else{
+  } else {
     oscillationCounter = 0;
   }
   return false;
 }
 
 // Restart the simulation by randomizing the grid and changing the live cell color
-void restartSimulation(){
+void restartSimulation() {
   // Change live cell color
   currentColorIndex = (currentColorIndex + 1) % numColors2;
   LIVE_CELL_COLOR = colorList[currentColorIndex];
-  
- // Serial.print("Changing live cell color to: ");
-//  Serial.println(LIVE_CELL_COLOR, HEX);
-  
+
+  // Serial.print("Changing live cell color to: ");
+  //  Serial.println(LIVE_CELL_COLOR, HEX);
+
   // Perform fade out of current state
   fadeTransition(true, false);
-  
+
   // Reinitialize grid
   randomizeGrid();
-  
+
   // Perform fade in of new state
   fadeTransition(false, true);
-  
+
   // Display and print the updated grid
   displayGrid();
- // printGridToSerial();
-  
+  // printGridToSerial();
+
   // Update previous states to match current state
-  for(int row=0; row<5; row++) {
-    for(int col=0; col<10; col++) {
+  for (int row = 0; row < 5; row++) {
+    for (int col = 0; col < 10; col++) {
       previousState[row][col] = currentState[row][col];
       secondPreviousState[row][col] = currentState[row][col];
     }
   }
-  
+
   // Reset stable and oscillation counters
   stableCounter = 0;
   oscillationCounter = 0;
@@ -3138,74 +2899,74 @@ void tetrisNeoPixelDemo(Adafruit_NeoPixel &pixels) {
   spawnNewPiece();
 
   // Variables for button debouncing
- // bool rightButtonReading;
-//  bool rightButtonState = HIGH;       // Debounced button state
- // bool lastRightButtonState = HIGH;   // Previous debounced button state
+  // bool rightButtonReading;
+  //  bool rightButtonState = HIGH;       // Debounced button state
+  // bool lastRightButtonState = HIGH;   // Previous debounced button state
   unsigned long lastDebounceTime = 0;
   const unsigned long debounceDelay = 50;
 
   unsigned long previousMillis = 0;
-  const unsigned long interval = 20; // Update interval for animation
+  const unsigned long interval = 20;  // Update interval for animation
 
-    // Variables for right button press detection
-    bool rightButtonPressed = false;
-    unsigned long pressStartTime = 0;
-    bool longPressHandled = false;
+  // Variables for right button press detection
+  bool rightButtonPressed = false;
+  unsigned long pressStartTime = 0;
+  bool longPressHandled = false;
 
-    bool rightButtonLastState = HIGH; // Assume button not pressed (pull-up resistor)
+  bool rightButtonLastState = HIGH;  // Assume button not pressed (pull-up resistor)
 
-    while (!isLeftButtonPressed() && !animationInterrupted) {
-      Watchdog.reset();
-      unsigned long currentMillis = millis();
+  while (!isLeftButtonPressed() && !animationInterrupted) {
+    Watchdog.reset();
+    unsigned long currentMillis = millis();
 
-      // Check for both buttons pressed
-      if (isBothButtonsPressed()) {
-        handleBothButtonsPressed();
+    // Check for both buttons pressed
+    if (isBothButtonsPressed()) {
+      handleBothButtonsPressed();
+    }
+
+    // Read the current state of the right button
+    bool rightButtonCurrentState = digitalRead(RIGHT_BUTTON_PIN);
+
+    if (rightButtonLastState == HIGH && rightButtonCurrentState == LOW) {
+      // Button was just pressed
+      delay(50);  // Debounce delay
+      rightButtonCurrentState = digitalRead(RIGHT_BUTTON_PIN);
+      if (rightButtonCurrentState == LOW) {
+        rightButtonPressed = true;
+        pressStartTime = millis();
+        longPressHandled = false;
+        Serial.println("Right button pressed.");
       }
+    }
 
-      // Read the current state of the right button
-      bool rightButtonCurrentState = digitalRead(RIGHT_BUTTON_PIN);
-
-      if (rightButtonLastState == HIGH && rightButtonCurrentState == LOW) {
-        // Button was just pressed
-        delay(50); // Debounce delay
-        rightButtonCurrentState = digitalRead(RIGHT_BUTTON_PIN);
-        if (rightButtonCurrentState == LOW) {
-          rightButtonPressed = true;
-          pressStartTime = millis();
-          longPressHandled = false;
-          Serial.println("Right button pressed.");
-        }
-      }
-
-      if (rightButtonLastState == LOW && rightButtonCurrentState == HIGH) {
-        // Button was just released
-        if (rightButtonPressed) {
-          unsigned long pressDuration = millis() - pressStartTime;
-          if (pressDuration < SHORT_PRESS_THRESHOLD) {
-            // Short press detected
-            Serial.println("Short press detected.");
-             rotatePiece();
-          } else if (pressDuration >= LONG_PRESS_THRESHOLD && !longPressHandled) {
-            // Long press detected upon release, only if not handled during holding
-            Serial.println("Long press detected.");
-            handleLongPress(animationIndex); // Example function
-          }
-          rightButtonPressed = false;
-        }
-      }
-
-      // Handle long press if button is still pressed and threshold exceeded
-      if (rightButtonPressed && !longPressHandled) {
+    if (rightButtonLastState == LOW && rightButtonCurrentState == HIGH) {
+      // Button was just released
+      if (rightButtonPressed) {
         unsigned long pressDuration = millis() - pressStartTime;
-        if (pressDuration >= LONG_PRESS_THRESHOLD) {
-          longPressHandled = true;
-          Serial.println("Long press detected (while holding).");
-          handleLongPress(animationIndex); // Example function
+        if (pressDuration < SHORT_PRESS_THRESHOLD) {
+          // Short press detected
+          Serial.println("Short press detected.");
+          rotatePiece();
+        } else if (pressDuration >= LONG_PRESS_THRESHOLD && !longPressHandled) {
+          // Long press detected upon release, only if not handled during holding
+          Serial.println("Long press detected.");
+          handleLongPress(animationIndex);  // Example function
         }
+        rightButtonPressed = false;
       }
+    }
 
-      rightButtonLastState = rightButtonCurrentState;
+    // Handle long press if button is still pressed and threshold exceeded
+    if (rightButtonPressed && !longPressHandled) {
+      unsigned long pressDuration = millis() - pressStartTime;
+      if (pressDuration >= LONG_PRESS_THRESHOLD) {
+        longPressHandled = true;
+        Serial.println("Long press detected (while holding).");
+        handleLongPress(animationIndex);  // Example function
+      }
+    }
+
+    rightButtonLastState = rightButtonCurrentState;
 
     // Move the piece down at regular intervals
     if (currentMillis - lastFallTime >= FALL_SPEED_MS) {
@@ -3230,7 +2991,7 @@ void tetrisNeoPixelDemo(Adafruit_NeoPixel &pixels) {
   // Turn off all pixels after exiting
   clearDisplay();
   pixels.show();
-  delay(50); // Debounce delay
+  delay(50);  // Debounce delay
 }
 
 //*/
@@ -3250,22 +3011,22 @@ void spawnNewPiece() {
   currentPiece.color = tetrominoColors[index];
 
   // Reset position
-  pieceX = 1;  // Start near the middle
-  pieceY = -4; // Start above the grid
+  pieceX = 1;   // Start near the middle
+  pieceY = -4;  // Start above the grid
 
   // Reset rotation state
   currentPiece.rotationState = 0;
 
- // Serial.print("Spawned New Piece Index: ");
- // Serial.println(index);
+  // Serial.print("Spawned New Piece Index: ");
+  // Serial.println(index);
 }
 
 // Rotate the current piece
 void rotatePiece() {
   // Update rotation state
   currentPiece.rotationState = (currentPiece.rotationState + 1) % 4;
- // Serial.print("Rotation State: ");
- // Serial.println(currentPiece.rotationState);
+  // Serial.print("Rotation State: ");
+  // Serial.println(currentPiece.rotationState);
 }
 
 // Draw the current piece on the NeoPixel grids
@@ -3350,7 +3111,7 @@ void fallingDropsNeoPixelDemo(Adafruit_NeoPixel &pixels) {
   int dropletCountRight = 0;
 
   // Color Selection Variables
-  int colorMode = 0; // 0 = Random, 1-10 = colorArray[0-9]
+  int colorMode = 0;  // 0 = Random, 1-10 = colorArray[0-9]
 
   // Variables for Button Debouncing
   // bool rightButtonLastState = HIGH;
@@ -3360,78 +3121,78 @@ void fallingDropsNeoPixelDemo(Adafruit_NeoPixel &pixels) {
   // Initialize Droplet arrays for Left and Right grids
   for (int i = 0; i < MAX_DROPLETS_PER_GRID; i++) {
     // Left Grid Droplets
-    dropletsLeft[i].row = -1; // Inactive
+    dropletsLeft[i].row = -1;  // Inactive
 
     // Right Grid Droplets
-    dropletsRight[i].row = -1; // Inactive
+    dropletsRight[i].row = -1;  // Inactive
   }
 
   // Seed random number generator for randomized colors and positions
   randomSeed(analogRead(A3));
 
   unsigned long previousMillis = 0;
-  const unsigned long interval = 20; // Update interval for animation
+  const unsigned long interval = 20;  // Update interval for animation
 
-    // Variables for right button press detection
-    bool rightButtonPressed = false;
-    unsigned long pressStartTime = 0;
-    bool longPressHandled = false;
+  // Variables for right button press detection
+  bool rightButtonPressed = false;
+  unsigned long pressStartTime = 0;
+  bool longPressHandled = false;
 
-    bool rightButtonLastState = HIGH; // Assume button not pressed (pull-up resistor)
+  bool rightButtonLastState = HIGH;  // Assume button not pressed (pull-up resistor)
 
-    while (!isLeftButtonPressed() && !animationInterrupted) {
-      Watchdog.reset();
-      unsigned long currentMillis = millis();
+  while (!isLeftButtonPressed() && !animationInterrupted) {
+    Watchdog.reset();
+    unsigned long currentMillis = millis();
 
-      // Check for both buttons pressed
-      if (isBothButtonsPressed()) {
-        handleBothButtonsPressed();
+    // Check for both buttons pressed
+    if (isBothButtonsPressed()) {
+      handleBothButtonsPressed();
+    }
+
+    // Read the current state of the right button
+    bool rightButtonCurrentState = digitalRead(RIGHT_BUTTON_PIN);
+
+    if (rightButtonLastState == HIGH && rightButtonCurrentState == LOW) {
+      // Button was just pressed
+      delay(50);  // Debounce delay
+      rightButtonCurrentState = digitalRead(RIGHT_BUTTON_PIN);
+      if (rightButtonCurrentState == LOW) {
+        rightButtonPressed = true;
+        pressStartTime = millis();
+        longPressHandled = false;
+        Serial.println("Right button pressed.");
       }
+    }
 
-      // Read the current state of the right button
-      bool rightButtonCurrentState = digitalRead(RIGHT_BUTTON_PIN);
-
-      if (rightButtonLastState == HIGH && rightButtonCurrentState == LOW) {
-        // Button was just pressed
-        delay(50); // Debounce delay
-        rightButtonCurrentState = digitalRead(RIGHT_BUTTON_PIN);
-        if (rightButtonCurrentState == LOW) {
-          rightButtonPressed = true;
-          pressStartTime = millis();
-          longPressHandled = false;
-          Serial.println("Right button pressed.");
-        }
-      }
-
-      if (rightButtonLastState == LOW && rightButtonCurrentState == HIGH) {
-        // Button was just released
-        if (rightButtonPressed) {
-          unsigned long pressDuration = millis() - pressStartTime;
-          if (pressDuration < SHORT_PRESS_THRESHOLD) {
-            // Short press detected
-            Serial.println("Short press detected.");
-             // Cycle colorMode
-            colorMode = (colorMode + 1) % (numColors + 1); // 0 to numColors
-          } else if (pressDuration >= LONG_PRESS_THRESHOLD && !longPressHandled) {
-            // Long press detected upon release, only if not handled during holding
-            Serial.println("Long press detected.");
-            handleLongPress(animationIndex); // Example function
-          }
-          rightButtonPressed = false;
-        }
-      }
-
-      // Handle long press if button is still pressed and threshold exceeded
-      if (rightButtonPressed && !longPressHandled) {
+    if (rightButtonLastState == LOW && rightButtonCurrentState == HIGH) {
+      // Button was just released
+      if (rightButtonPressed) {
         unsigned long pressDuration = millis() - pressStartTime;
-        if (pressDuration >= LONG_PRESS_THRESHOLD) {
-          longPressHandled = true;
-          Serial.println("Long press detected (while holding).");
-          handleLongPress(animationIndex); // Example function
+        if (pressDuration < SHORT_PRESS_THRESHOLD) {
+          // Short press detected
+          Serial.println("Short press detected.");
+          // Cycle colorMode
+          colorMode = (colorMode + 1) % (numColors + 1);  // 0 to numColors
+        } else if (pressDuration >= LONG_PRESS_THRESHOLD && !longPressHandled) {
+          // Long press detected upon release, only if not handled during holding
+          Serial.println("Long press detected.");
+          handleLongPress(animationIndex);  // Example function
         }
+        rightButtonPressed = false;
       }
+    }
 
-      rightButtonLastState = rightButtonCurrentState;
+    // Handle long press if button is still pressed and threshold exceeded
+    if (rightButtonPressed && !longPressHandled) {
+      unsigned long pressDuration = millis() - pressStartTime;
+      if (pressDuration >= LONG_PRESS_THRESHOLD) {
+        longPressHandled = true;
+        Serial.println("Long press detected (while holding).");
+        handleLongPress(animationIndex);  // Example function
+      }
+    }
+
+    rightButtonLastState = rightButtonCurrentState;
 
     if (currentMillis - previousMillis >= interval) {
       previousMillis = currentMillis;
@@ -3466,7 +3227,7 @@ void fallingDropsNeoPixelDemo(Adafruit_NeoPixel &pixels) {
   // Turn off all pixels after exiting
   setAllNeoPixelsColor(pixels, 0);
   pixels.show();
-  delay(50); // Debounce delay
+  delay(50);  // Debounce delay
 }
 
 // ---------------------------
@@ -3475,367 +3236,367 @@ void fallingDropsNeoPixelDemo(Adafruit_NeoPixel &pixels) {
 
 // Function to create a new droplet in the specified grid
 void createDroplet(Droplet droplets[], int &dropletCount, const int grid[5][5]) {
-    // Find an inactive droplet slot
-    for (int i = 0; i < MAX_DROPLETS_PER_GRID; i++) {
-        if (droplets[i].row == -1) {
-            droplets[i].row = 0; // Start at top row (y=0)
+  // Find an inactive droplet slot
+  for (int i = 0; i < MAX_DROPLETS_PER_GRID; i++) {
+    if (droplets[i].row == -1) {
+      droplets[i].row = 0;  // Start at top row (y=0)
 
-            // Assign a random column within the grid based on row
-            // y=0: columns 1-3
-            // y=1-3: columns 0-4
-            if (droplets[i].row == 0) {
-                droplets[i].column = random(1, 4); // Columns 1, 2, 3
-            } else {
-                droplets[i].column = random(0, 5); // Columns 0-4
-            }
+      // Assign a random column within the grid based on row
+      // y=0: columns 1-3
+      // y=1-3: columns 0-4
+      if (droplets[i].row == 0) {
+        droplets[i].column = random(1, 4);  // Columns 1, 2, 3
+      } else {
+        droplets[i].column = random(0, 5);  // Columns 0-4
+      }
 
-            // Ensure the assigned column has a valid pixel in the current row
-            if (grid[droplets[i].row][droplets[i].column] == -1) {
-                // If invalid, assign to a valid column within the row
-                if (droplets[i].row == 0) {
-                    droplets[i].column = random(1, 4); // y=0: Columns 1-3
-                } else {
-                    droplets[i].column = random(0, 5); // y=1-3: Columns 0-4
-                }
-
-                // Recheck and assign again if necessary
-                while (grid[droplets[i].row][droplets[i].column] == -1) {
-                    if (droplets[i].row == 0) {
-                        droplets[i].column = random(1, 4);
-                    } else {
-                        droplets[i].column = random(0, 5);
-                    }
-                }
-            }
-
-            // Assign color based on current colorMode
-            droplets[i].color = getColor();
-
-            // Set fixed speed
-            droplets[i].speed = DROPLET_SPEED_MS;
-
-            // Update the lastUpdate timestamp
-            droplets[i].lastUpdate = millis();
-
-            // Increment droplet count
-            dropletCount++;
-
-            break; // Exit after creating one droplet
+      // Ensure the assigned column has a valid pixel in the current row
+      if (grid[droplets[i].row][droplets[i].column] == -1) {
+        // If invalid, assign to a valid column within the row
+        if (droplets[i].row == 0) {
+          droplets[i].column = random(1, 4);  // y=0: Columns 1-3
+        } else {
+          droplets[i].column = random(0, 5);  // y=1-3: Columns 0-4
         }
+
+        // Recheck and assign again if necessary
+        while (grid[droplets[i].row][droplets[i].column] == -1) {
+          if (droplets[i].row == 0) {
+            droplets[i].column = random(1, 4);
+          } else {
+            droplets[i].column = random(0, 5);
+          }
+        }
+      }
+
+      // Assign color based on current colorMode
+      droplets[i].color = getColor();
+
+      // Set fixed speed
+      droplets[i].speed = DROPLET_SPEED_MS;
+
+      // Update the lastUpdate timestamp
+      droplets[i].lastUpdate = millis();
+
+      // Increment droplet count
+      dropletCount++;
+
+      break;  // Exit after creating one droplet
     }
+  }
 }
 
 // Function to update droplet positions in the specified grid
 void updateDroplets(Droplet droplets[], int &dropletCount, const int grid[5][5]) {
-    unsigned long currentTime = millis();
+  unsigned long currentTime = millis();
 
-    for (int i = 0; i < MAX_DROPLETS_PER_GRID; i++) {
-        if (droplets[i].row != -1) { // Active droplet
-            if (currentTime - droplets[i].lastUpdate >= droplets[i].speed) {
-                droplets[i].row += 1; // Move droplet down by one row
-                droplets[i].lastUpdate = currentTime; // Reset the lastUpdate timestamp
+  for (int i = 0; i < MAX_DROPLETS_PER_GRID; i++) {
+    if (droplets[i].row != -1) {  // Active droplet
+      if (currentTime - droplets[i].lastUpdate >= droplets[i].speed) {
+        droplets[i].row += 1;                  // Move droplet down by one row
+        droplets[i].lastUpdate = currentTime;  // Reset the lastUpdate timestamp
 
-                // Assign a new column if the droplet is now in y=1,2,3
-                if (droplets[i].row >= 1 && droplets[i].row <= 3) {
-                    droplets[i].column = random(0, 5); // Columns 0-4
+        // Assign a new column if the droplet is now in y=1,2,3
+        if (droplets[i].row >= 1 && droplets[i].row <= 3) {
+          droplets[i].column = random(0, 5);  // Columns 0-4
 
-                    // Ensure the new column has a valid pixel in the current row
-                    if (grid[droplets[i].row][droplets[i].column] == -1) {
-                        // If invalid, assign to a valid column within the row
-                        droplets[i].column = random(0, 5);
-                        while (grid[droplets[i].row][droplets[i].column] == -1) {
-                            droplets[i].column = random(0, 5);
-                        }
-                    }
-                }
-
-                // Check if droplet has reached the bottom row
-                if (droplets[i].row >= 5) { // Assuming grid rows are 0-4
-                    droplets[i].row = -1; // Deactivate droplet
-                    droplets[i].color = 0; // Reset color
-                    dropletCount--;        // Decrement droplet count
-                }
+          // Ensure the new column has a valid pixel in the current row
+          if (grid[droplets[i].row][droplets[i].column] == -1) {
+            // If invalid, assign to a valid column within the row
+            droplets[i].column = random(0, 5);
+            while (grid[droplets[i].row][droplets[i].column] == -1) {
+              droplets[i].column = random(0, 5);
             }
+          }
         }
+
+        // Check if droplet has reached the bottom row
+        if (droplets[i].row >= 5) {  // Assuming grid rows are 0-4
+          droplets[i].row = -1;      // Deactivate droplet
+          droplets[i].color = 0;     // Reset color
+          dropletCount--;            // Decrement droplet count
+        }
+      }
     }
+  }
 }
 
 // Function to display droplets on the specified grid
 void displayDroplets(Droplet droplets[], int dropletCount, const int grid[5][5]) {
-    // Clear all pixels in the grid before updating
-    for (int row = 0; row < 5; row++) {
-        for (int col = 0; col < 5; col++) {
-            int pixelIndex = grid[row][col];
-            if (pixelIndex != -1) {
-                pixels.setPixelColor(pixelIndex, 0); // Turn off pixel
-            }
-        }
+  // Clear all pixels in the grid before updating
+  for (int row = 0; row < 5; row++) {
+    for (int col = 0; col < 5; col++) {
+      int pixelIndex = grid[row][col];
+      if (pixelIndex != -1) {
+        pixels.setPixelColor(pixelIndex, 0);  // Turn off pixel
+      }
     }
+  }
 
-    // Light up active droplets
-    for (int i = 0; i < MAX_DROPLETS_PER_GRID; i++) {
-        if (droplets[i].row != -1) {
-            int row = droplets[i].row;
-            int col = droplets[i].column;
-            int pixelIndex = grid[row][col];
-            if (pixelIndex != -1) {
-                pixels.setPixelColor(pixelIndex, droplets[i].color); // Set droplet color
-            }
-        }
+  // Light up active droplets
+  for (int i = 0; i < MAX_DROPLETS_PER_GRID; i++) {
+    if (droplets[i].row != -1) {
+      int row = droplets[i].row;
+      int col = droplets[i].column;
+      int pixelIndex = grid[row][col];
+      if (pixelIndex != -1) {
+        pixels.setPixelColor(pixelIndex, droplets[i].color);  // Set droplet color
+      }
     }
+  }
 
-    // Update the NeoPixel strip to show changes
-    pixels.show();
+  // Update the NeoPixel strip to show changes
+  pixels.show();
 }
 
 // Function to get the current color based on colorMode
 uint32_t getColor() {
-    if (colorMode == 0) {
-        // Random color
-        uint16_t hue = random(0, 65535); // Random hue
-        return ColorHSV(hue, 255, 255); // Full saturation and brightness
-    } else {
-        // Predefined color from colorArray
-        uint8_t red = colorArray[colorMode - 1][0];
-        uint8_t green = colorArray[colorMode - 1][1];
-        uint8_t blue = colorArray[colorMode - 1][2];
-        return pixels.Color(red, green, blue);
-    }
+  if (colorMode == 0) {
+    // Random color
+    uint16_t hue = random(0, 65535);  // Random hue
+    return ColorHSV(hue, 255, 255);   // Full saturation and brightness
+  } else {
+    // Predefined color from colorArray
+    uint8_t red = colorArray[colorMode - 1][0];
+    uint8_t green = colorArray[colorMode - 1][1];
+    uint8_t blue = colorArray[colorMode - 1][2];
+    return pixels.Color(red, green, blue);
+  }
 }
 
 // Helper function to convert HSV to RGB
 uint32_t ColorHSV(long hue, uint8_t sat, uint8_t val) {
-    // Hue: 0-65535, Saturation: 0-255, Value: 0-255
-    uint16_t region = hue / (65535 / 6);
-    uint8_t remainder = (hue % (65535 / 6)) * 255 / (65535 / 6);
-    uint8_t p = (val * (255 - sat)) / 255;
-    uint8_t q = (val * (255 - ((sat * remainder) / 255))) / 255;
-    uint8_t t = (val * (255 - ((sat * (255 - remainder)) / 255))) / 255;
-    uint8_t r, g, b;
+  // Hue: 0-65535, Saturation: 0-255, Value: 0-255
+  uint16_t region = hue / (65535 / 6);
+  uint8_t remainder = (hue % (65535 / 6)) * 255 / (65535 / 6);
+  uint8_t p = (val * (255 - sat)) / 255;
+  uint8_t q = (val * (255 - ((sat * remainder) / 255))) / 255;
+  uint8_t t = (val * (255 - ((sat * (255 - remainder)) / 255))) / 255;
+  uint8_t r, g, b;
 
-    switch (region) {
-        case 0:
-            r = val;
-            g = t;
-            b = p;
-            break;
-        case 1:
-            r = q;
-            g = val;
-            b = p;
-            break;
-        case 2:
-            r = p;
-            g = val;
-            b = t;
-            break;
-        case 3:
-            r = p;
-            g = q;
-            b = val;
-            break;
-        case 4:
-            r = t;
-            g = p;
-            b = val;
-            break;
-        case 5:
-        default:
-            r = val;
-            g = p;
-            b = q;
-            break;
-    }
+  switch (region) {
+    case 0:
+      r = val;
+      g = t;
+      b = p;
+      break;
+    case 1:
+      r = q;
+      g = val;
+      b = p;
+      break;
+    case 2:
+      r = p;
+      g = val;
+      b = t;
+      break;
+    case 3:
+      r = p;
+      g = q;
+      b = val;
+      break;
+    case 4:
+      r = t;
+      g = p;
+      b = val;
+      break;
+    case 5:
+    default:
+      r = val;
+      g = p;
+      b = q;
+      break;
+  }
 
-    return pixels.Color(r, g, b);
+  return pixels.Color(r, g, b);
 }
 
 void spiralingVortexNeoPixelDemo(Adafruit_NeoPixel &pixels) {
-    Serial.println("Spiraling Vortex NeoPixel Demo. Press LEFT button to exit.");
+  Serial.println("Spiraling Vortex NeoPixel Demo. Press LEFT button to exit.");
 
-    int selectedColorIndex = 0;
+  int selectedColorIndex = 0;
   //  bool rightButtonLastState = HIGH;
-    int radius = 0;
+  int radius = 0;
 
-    // Variables for right button press detection
-    bool rightButtonPressed = false;
-    unsigned long pressStartTime = 0;
-    bool longPressHandled = false;
+  // Variables for right button press detection
+  bool rightButtonPressed = false;
+  unsigned long pressStartTime = 0;
+  bool longPressHandled = false;
 
-    bool rightButtonLastState = HIGH; // Assume button not pressed (pull-up resistor)
+  bool rightButtonLastState = HIGH;  // Assume button not pressed (pull-up resistor)
 
-    while (!isLeftButtonPressed() && !animationInterrupted) {
-      Watchdog.reset();
-      unsigned long currentMillis = millis();
+  while (!isLeftButtonPressed() && !animationInterrupted) {
+    Watchdog.reset();
+    unsigned long currentMillis = millis();
 
-      // Check for both buttons pressed
-      if (isBothButtonsPressed()) {
-        handleBothButtonsPressed();
-      }
-
-      // Read the current state of the right button
-      bool rightButtonCurrentState = digitalRead(RIGHT_BUTTON_PIN);
-
-      if (rightButtonLastState == HIGH && rightButtonCurrentState == LOW) {
-        // Button was just pressed
-        delay(50); // Debounce delay
-        rightButtonCurrentState = digitalRead(RIGHT_BUTTON_PIN);
-        if (rightButtonCurrentState == LOW) {
-          rightButtonPressed = true;
-          pressStartTime = millis();
-          longPressHandled = false;
-          Serial.println("Right button pressed.");
-        }
-      }
-
-      if (rightButtonLastState == LOW && rightButtonCurrentState == HIGH) {
-        // Button was just released
-        if (rightButtonPressed) {
-          unsigned long pressDuration = millis() - pressStartTime;
-          if (pressDuration < SHORT_PRESS_THRESHOLD) {
-            // Short press detected
-            Serial.println("Short press detected. No change for this animation");
-              selectedColorIndex = (selectedColorIndex + 1) % numColors;
-              Serial.print("Color changed to index ");
-             Serial.println(selectedColorIndex);
-          } else if (pressDuration >= LONG_PRESS_THRESHOLD && !longPressHandled) {
-            // Long press detected upon release, only if not handled during holding
-            Serial.println("Long press detected.");
-            handleLongPress(animationIndex); // Example function
-          }
-          rightButtonPressed = false;
-        }
-      }
-
-      // Handle long press if button is still pressed and threshold exceeded
-      if (rightButtonPressed && !longPressHandled) {
-        unsigned long pressDuration = millis() - pressStartTime;
-        if (pressDuration >= LONG_PRESS_THRESHOLD) {
-          longPressHandled = true;
-          Serial.println("Long press detected (while holding).");
-          handleLongPress(animationIndex); // Example function
-        }
-      }
-
-      rightButtonLastState = rightButtonCurrentState;
-
-        uint8_t red = colorArray[selectedColorIndex][0];
-        uint8_t green = colorArray[selectedColorIndex][1];
-        uint8_t blue = colorArray[selectedColorIndex][2];
-
-        setAllNeoPixelsColor(pixels, 0);
-
-        for (int i = 0; i < radius; i++) {
-            int pixelIndex = (i * 7 + radius) % pixels.numPixels(); // Spiral pattern
-            pixels.setPixelColor(pixelIndex, pixels.Color(red, green, blue));
-        }
-
-        pixels.show();
-        radius = (radius + 1) % pixels.numPixels();
-        delay(100);
+    // Check for both buttons pressed
+    if (isBothButtonsPressed()) {
+      handleBothButtonsPressed();
     }
 
+    // Read the current state of the right button
+    bool rightButtonCurrentState = digitalRead(RIGHT_BUTTON_PIN);
+
+    if (rightButtonLastState == HIGH && rightButtonCurrentState == LOW) {
+      // Button was just pressed
+      delay(50);  // Debounce delay
+      rightButtonCurrentState = digitalRead(RIGHT_BUTTON_PIN);
+      if (rightButtonCurrentState == LOW) {
+        rightButtonPressed = true;
+        pressStartTime = millis();
+        longPressHandled = false;
+        Serial.println("Right button pressed.");
+      }
+    }
+
+    if (rightButtonLastState == LOW && rightButtonCurrentState == HIGH) {
+      // Button was just released
+      if (rightButtonPressed) {
+        unsigned long pressDuration = millis() - pressStartTime;
+        if (pressDuration < SHORT_PRESS_THRESHOLD) {
+          // Short press detected
+          Serial.println("Short press detected. No change for this animation");
+          selectedColorIndex = (selectedColorIndex + 1) % numColors;
+          Serial.print("Color changed to index ");
+          Serial.println(selectedColorIndex);
+        } else if (pressDuration >= LONG_PRESS_THRESHOLD && !longPressHandled) {
+          // Long press detected upon release, only if not handled during holding
+          Serial.println("Long press detected.");
+          handleLongPress(animationIndex);  // Example function
+        }
+        rightButtonPressed = false;
+      }
+    }
+
+    // Handle long press if button is still pressed and threshold exceeded
+    if (rightButtonPressed && !longPressHandled) {
+      unsigned long pressDuration = millis() - pressStartTime;
+      if (pressDuration >= LONG_PRESS_THRESHOLD) {
+        longPressHandled = true;
+        Serial.println("Long press detected (while holding).");
+        handleLongPress(animationIndex);  // Example function
+      }
+    }
+
+    rightButtonLastState = rightButtonCurrentState;
+
+    uint8_t red = colorArray[selectedColorIndex][0];
+    uint8_t green = colorArray[selectedColorIndex][1];
+    uint8_t blue = colorArray[selectedColorIndex][2];
+
     setAllNeoPixelsColor(pixels, 0);
-    delay(50);
+
+    for (int i = 0; i < radius; i++) {
+      int pixelIndex = (i * 7 + radius) % pixels.numPixels();  // Spiral pattern
+      pixels.setPixelColor(pixelIndex, pixels.Color(red, green, blue));
+    }
+
+    pixels.show();
+    radius = (radius + 1) % pixels.numPixels();
+    delay(100);
+  }
+
+  setAllNeoPixelsColor(pixels, 0);
+  delay(50);
 }
 
-void neopixelsOff(Adafruit_NeoPixel &pixels){
+void neopixelsOff(Adafruit_NeoPixel &pixels) {
   setAllNeoPixelsColor(pixels, 0);  // Turn off all NeoPixels
 }
 
 void theaterMarqueeNeoPixelDemo(Adafruit_NeoPixel &pixels) {
-    Serial.println("Theater Marquee NeoPixel Demo. Press LEFT button to exit.");
+  Serial.println("Theater Marquee NeoPixel Demo. Press LEFT button to exit.");
+  Watchdog.reset();
+  int selectedColorIndex = 0;
+  // Variables for right button press detection
+  bool rightButtonPressed = false;
+  unsigned long pressStartTime = 0;
+  bool longPressHandled = false;
+
+  bool rightButtonLastState = HIGH;  // Assume button not pressed (pull-up resistor)
+
+  while (!isLeftButtonPressed() && !animationInterrupted) {
     Watchdog.reset();
-    int selectedColorIndex = 0;
-    // Variables for right button press detection
-    bool rightButtonPressed = false;
-    unsigned long pressStartTime = 0;
-    bool longPressHandled = false;
+    unsigned long currentMillis = millis();
 
-    bool rightButtonLastState = HIGH; // Assume button not pressed (pull-up resistor)
-
-    while (!isLeftButtonPressed() && !animationInterrupted) {
-      Watchdog.reset();
-      unsigned long currentMillis = millis();
-
-      // Check for both buttons pressed
-      if (isBothButtonsPressed()) {
-        handleBothButtonsPressed();
-      }
-
-      // Read the current state of the right button
-      bool rightButtonCurrentState = digitalRead(RIGHT_BUTTON_PIN);
-
-      if (rightButtonLastState == HIGH && rightButtonCurrentState == LOW) {
-        // Button was just pressed
-        delay(50); // Debounce delay
-        rightButtonCurrentState = digitalRead(RIGHT_BUTTON_PIN);
-        if (rightButtonCurrentState == LOW) {
-          rightButtonPressed = true;
-          pressStartTime = millis();
-          longPressHandled = false;
-          Serial.println("Right button pressed.");
-        }
-      }
-
-      if (rightButtonLastState == LOW && rightButtonCurrentState == HIGH) {
-        // Button was just released
-        if (rightButtonPressed) {
-          unsigned long pressDuration = millis() - pressStartTime;
-          if (pressDuration < SHORT_PRESS_THRESHOLD) {
-            // Short press detected
-            Serial.println("Short press detected. No change for this animation");
-              selectedColorIndex = (selectedColorIndex + 1) % numColors;
-              Serial.print("Color changed to index ");
-             Serial.println(selectedColorIndex);
-          } else if (pressDuration >= LONG_PRESS_THRESHOLD && !longPressHandled) {
-            // Long press detected upon release, only if not handled during holding
-            Serial.println("Long press detected.");
-            handleLongPress(animationIndex); // Example function
-          }
-          rightButtonPressed = false;
-        }
-      }
-
-      // Handle long press if button is still pressed and threshold exceeded
-      if (rightButtonPressed && !longPressHandled) {
-        unsigned long pressDuration = millis() - pressStartTime;
-        if (pressDuration >= LONG_PRESS_THRESHOLD) {
-          longPressHandled = true;
-          Serial.println("Long press detected (while holding).");
-          handleLongPress(animationIndex); // Example function
-        }
-      }
-
-      rightButtonLastState = rightButtonCurrentState;
-
-        uint8_t red = colorArray[selectedColorIndex][0];
-        uint8_t green = colorArray[selectedColorIndex][1];
-        uint8_t blue = colorArray[selectedColorIndex][2];
-
-        for (int i = 0; i < pixels.numPixels(); i++) {
-            if (i % 3 == 0) {
-                pixels.setPixelColor(i, pixels.Color(red, green, blue));
-            } else {
-                pixels.setPixelColor(i, 0);
-            }
-        }
-        pixels.show();
-        delay(100);
-
-        for (int i = 0; i < pixels.numPixels(); i++) {
-            if ((i + 1) % 3 == 0) {
-                pixels.setPixelColor(i, pixels.Color(red, green, blue));
-            } else {
-                pixels.setPixelColor(i, 0);
-            }
-        }
-        pixels.show();
-        delay(100);
+    // Check for both buttons pressed
+    if (isBothButtonsPressed()) {
+      handleBothButtonsPressed();
     }
 
-    setAllNeoPixelsColor(pixels, 0);
-    delay(50);
+    // Read the current state of the right button
+    bool rightButtonCurrentState = digitalRead(RIGHT_BUTTON_PIN);
+
+    if (rightButtonLastState == HIGH && rightButtonCurrentState == LOW) {
+      // Button was just pressed
+      delay(50);  // Debounce delay
+      rightButtonCurrentState = digitalRead(RIGHT_BUTTON_PIN);
+      if (rightButtonCurrentState == LOW) {
+        rightButtonPressed = true;
+        pressStartTime = millis();
+        longPressHandled = false;
+        Serial.println("Right button pressed.");
+      }
+    }
+
+    if (rightButtonLastState == LOW && rightButtonCurrentState == HIGH) {
+      // Button was just released
+      if (rightButtonPressed) {
+        unsigned long pressDuration = millis() - pressStartTime;
+        if (pressDuration < SHORT_PRESS_THRESHOLD) {
+          // Short press detected
+          Serial.println("Short press detected. No change for this animation");
+          selectedColorIndex = (selectedColorIndex + 1) % numColors;
+          Serial.print("Color changed to index ");
+          Serial.println(selectedColorIndex);
+        } else if (pressDuration >= LONG_PRESS_THRESHOLD && !longPressHandled) {
+          // Long press detected upon release, only if not handled during holding
+          Serial.println("Long press detected.");
+          handleLongPress(animationIndex);  // Example function
+        }
+        rightButtonPressed = false;
+      }
+    }
+
+    // Handle long press if button is still pressed and threshold exceeded
+    if (rightButtonPressed && !longPressHandled) {
+      unsigned long pressDuration = millis() - pressStartTime;
+      if (pressDuration >= LONG_PRESS_THRESHOLD) {
+        longPressHandled = true;
+        Serial.println("Long press detected (while holding).");
+        handleLongPress(animationIndex);  // Example function
+      }
+    }
+
+    rightButtonLastState = rightButtonCurrentState;
+
+    uint8_t red = colorArray[selectedColorIndex][0];
+    uint8_t green = colorArray[selectedColorIndex][1];
+    uint8_t blue = colorArray[selectedColorIndex][2];
+
+    for (int i = 0; i < pixels.numPixels(); i++) {
+      if (i % 3 == 0) {
+        pixels.setPixelColor(i, pixels.Color(red, green, blue));
+      } else {
+        pixels.setPixelColor(i, 0);
+      }
+    }
+    pixels.show();
+    delay(100);
+
+    for (int i = 0; i < pixels.numPixels(); i++) {
+      if ((i + 1) % 3 == 0) {
+        pixels.setPixelColor(i, pixels.Color(red, green, blue));
+      } else {
+        pixels.setPixelColor(i, 0);
+      }
+    }
+    pixels.show();
+    delay(100);
+  }
+
+  setAllNeoPixelsColor(pixels, 0);
+  delay(50);
 }
 
 
