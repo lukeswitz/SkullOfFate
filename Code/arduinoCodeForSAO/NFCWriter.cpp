@@ -98,13 +98,13 @@ void NFCWriter::writeCCFile() {
 
 void NFCWriter::writeRandomURI() {
     // Generate a random number between 1 and 78 (inclusive)
-    uint8_t randomNumber = random(1, 39);  // random(a, b) generates [a, b-1]
+    uint8_t randomNumber = random(1, 79);  // low inclusive, high exclusive
 
     //randomNumber = 3;
     
     // Construct the URI string
     char uriString[100];
-    snprintf(uriString, sizeof(uriString), "github.com/MakeItHackin/SkullOfFate/blob/main/Readings/%u.md", randomNumber);
+    snprintf(uriString, sizeof(uriString), "github.com/lukeswitz/SkullOfFate/blob/main/Readings/%u.md", randomNumber);
     
     // Debug: Print the constructed URI
     Serial.print(F("Generated URI: "));
