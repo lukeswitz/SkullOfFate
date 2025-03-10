@@ -138,8 +138,7 @@ void displayRainbow(Adafruit_NeoPixel &pixels);
 extern unsigned long lastRightButtonTime;
 extern bool specialModeActive;
 extern const unsigned long SPECIAL_MODE_TIMEOUT;
-
-// Dedicated function to check special mode
+extern bool lastRightState;
 bool isSpecialModeActive();
 
 // Function to perform the chase pattern

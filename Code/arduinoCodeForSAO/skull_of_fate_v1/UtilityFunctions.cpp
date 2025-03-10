@@ -22,7 +22,10 @@ static const unsigned long DOUBLE_TAP_COOLDOWN_GLOBAL = 500;  // Cooldown durati
 // Timing variables for button sequence detection
 unsigned long lastRightButtonTime = 0;
 bool specialModeActive = false;
+bool rightLongPressActive = false;
 const unsigned long SPECIAL_MODE_TIMEOUT = 2000; // 2 seconds timeout
+bool lastRightState = HIGH;
+unsigned long rightLongPressStart = 0;
 
 static DoubleTapCallback doubleTapCallback = NULL;
 
@@ -691,13 +694,8 @@ bool isSpecialModeActive() {
   return specialModeActive;
 }
 
-
 bool isRightButtonPressed() {
   bool currentState = (digitalRead(RIGHT_BUTTON_PIN) == LOW);
-  
-  // Only update lastRightButtonTime and activate special mode
-  // when button is first pressed (not continuously while held)
-  static bool lastRightState = HIGH;
   
   if (currentState && lastRightState == HIGH) {
     // Button was just pressed
@@ -2263,26 +2261,19 @@ void rainbowBeatMusic(Adafruit_NeoPixel &pixels) {
 
 
 void handleBothButtonsPressed() {
-  static unsigned long lastBothButtonsTime = 0;
   static bool bothButtonsLock = false;
+  static bool specialMode = false;
   
-  // Check if this is a fresh press (debounce and prevent continuous triggering)
-  unsigned long currentTime = millis();
-  if (currentTime - lastBothButtonsTime < 300) {
-    return; // Debounce
-  }
-  
+  // Handle both buttons being pressed
   if (!bothButtonsLock && isBothButtonsPressed()) {
-    Watchdog.reset();
     bothButtonsLock = true;
-    lastBothButtonsTime = currentTime;
     
-    // Store the current animation to resume later
+    // Store the current animation
     previousAnimation = currentAnimation;
-    currentAnimation = NULL;  // Stop current animation
+    currentAnimation = NULL;
     
-    // Check if special mode is active
-    bool useFullRange = isSpecialModeActive();
+    // Use the appropriate range based on special mode
+    bool useFullRange = specialMode;
     
     if (useFullRange) {
       Serial.println("BOTH BUTTONS PRESSED IN SPECIAL MODE!");
@@ -2291,40 +2282,81 @@ void handleBothButtonsPressed() {
       Serial.println("BOTH BUTTONS PRESSED!");
       Serial.println("Using limited card range (1-38)");
     }
-
-    // Initialize random seed
-    randomSeed(analogRead(A3));
-
+    
+    // Reset special mode after use
+    specialMode = false;
+    
     // Visual feedback
     turnOnAllLEDs();
     setAllNeoPixelsColor(pixels, pixels.Color(255, 255, 255));
     pixels.show();
-
+    
     // NFC operations
     nfcWriter.wipeEEPROM();
     nfcWriter.writeCCFile();
     nfcWriter.writeRandomURI(useFullRange);
-
+    
     Serial.println("NFC tag written.");
-    Watchdog.reset();
-
-    // Wait for visual feedback
+    
+    // Wait for feedback
     delay(2000);
-
+    
     // Clean up
     turnOffAllLEDs();
     setAllNeoPixelsColor(pixels, 0);
     pixels.show();
-
-    // Resume previous animation
-    currentAnimation = previousAnimation;
     
-    // Reset special mode after use
-    specialModeActive = false;
+    // Resume animation
+    currentAnimation = previousAnimation;
   } 
   else if (bothButtonsLock && !isBothButtonsPressed()) {
-    // Buttons were released
+    // Buttons released
     bothButtonsLock = false;
+  }
+  
+  // Replace long press right button detection with special mode activation
+  if (isRightButtonPressed()) {
+    static unsigned long rightPressStart = 0;
+    static bool rightLongPressActive = false;
+    
+    if (!rightLongPressActive) {
+      rightLongPressStart = millis();
+      rightLongPressActive = true;
+    }
+    
+    // Detect long press (1 second)
+    if (rightLongPressActive && (millis() - rightPressStart > 1000) && !specialMode) {
+      // Activate special mode with beautiful LED pattern
+      specialMode = true;
+      
+      // Beautiful LED sequence for special mode indication
+      for (int i = 0; i < 3; i++) {
+        // Flash cups
+        setLEDGroup("cups", HIGH);
+        delay(100);
+        setLEDGroup("cups", LOW);
+        
+        // Flash swords
+        setLEDGroup("swords", HIGH);
+        delay(100);
+        setLEDGroup("swords", LOW);
+        
+        // Flash wands
+        setLEDGroup("wands", HIGH);
+        delay(100);
+        setLEDGroup("wands", LOW);
+      }
+      
+      // Final confirmation flash
+      turnOnAllLEDs();
+      delay(200);
+      turnOffAllLEDs();
+      
+      Serial.println("SPECIAL MODE ACTIVATED! Full card range (1-78) available.");
+    }
+  } else {
+    // Reset right button tracking when released
+    rightLongPressActive = false;
   }
 }
 
